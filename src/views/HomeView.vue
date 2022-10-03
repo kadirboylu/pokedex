@@ -7,7 +7,7 @@
     <div class="pokemon-list">
       <PokemonContainer />
     </div>
-    <PokemonModal v-if="showModal" @close="closeModal" />
+    <PokemonModal v-if="showModal" />
     <PokemonDrawer />
   </div>
 </template>
@@ -34,10 +34,6 @@ export default class HomeView extends Vue {
 
   get showDrawer() {
     return drawerStore.showDrawer;
-  }
-
-  closeModal() {
-    modalStore.closeModal();
   }
 }
 </script>

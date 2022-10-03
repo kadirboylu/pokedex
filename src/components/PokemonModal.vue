@@ -35,7 +35,7 @@
               </ul>
             </div>
           </div>
-          <i class="close fas fa-times" @click="$emit('close')"></i>
+          <i class="close fas fa-times" @click="closeModal"></i>
         </div>
       </div>
     </div>
@@ -52,6 +52,27 @@ import { modalStore } from "../store/modal.module";
 })
 export default class PokemonModal extends Vue {
   pokemon: PokemonResponse = modalStore.pokemonData;
+
+  closeModal() {
+    modalStore.closeModal();
+  }
+
+  outsideClick(e: MouseEvent) {
+    const modal = document.querySelector(".modal-container");
+    const wrapper = document.querySelector(".modal-wrapper");
+
+    if (e.target === wrapper && e.target !== modal) {
+      modalStore.closeModal();
+    }
+  }
+
+  mounted() {
+    document.addEventListener("click", this.outsideClick);
+  }
+
+  beforeDestroy() {
+    document.removeEventListener("click", this.outsideClick);
+  }
 }
 </script>
 
