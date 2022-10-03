@@ -10,5 +10,5 @@ import { Component, Vue } from "vue-property-decorator";
 @Component({
   components: {},
 })
-export default class HomeView extends Vue {}
+export default class FavoritesView extends Vue {}
 </script>

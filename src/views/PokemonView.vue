@@ -47,7 +47,7 @@ import { getPokemon, PokemonResponse } from "@/service";
     BaseLoader,
   },
 })
-export default class HomeView extends Vue {
+export default class PokemonView extends Vue {
   pokemon: PokemonResponse = {
     name: "",
     id: 0,
