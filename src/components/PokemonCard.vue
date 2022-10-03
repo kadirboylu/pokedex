@@ -17,7 +17,7 @@ d
               <div v-if="showOptions" class="options">
                 <a class="view-option" :href="`/pokemon/${pokemon.name}`">Page View</a>
                 <button class="view-option" @click="openModal">Modal View</button>
-                <button class="view-option">Drawer View</button>
+                <button class="view-option" @click="openDrawer">Drawer View</button>
               </div>
             </div>
             <h3>Height</h3>
@@ -37,6 +37,7 @@ d
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { PokemonResponse } from "@/service";
 import { modalStore } from "../store/modal.module";
+import { drawerStore } from "../store/drawer.module";
 
 @Component({
   components: {},
@@ -56,6 +57,10 @@ export default class PokemonCard extends Vue {
 
   openModal() {
     modalStore.openModal(this.pokemon);
+  }
+
+  openDrawer() {
+    drawerStore.openDrawer(this.pokemon);
   }
 }
 </script>

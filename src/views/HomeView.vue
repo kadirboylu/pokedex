@@ -8,6 +8,7 @@
       <PokemonContainer />
     </div>
     <PokemonModal v-if="showModal" @close="closeModal" />
+    <PokemonDrawer />
   </div>
 </template>
 
@@ -16,16 +17,23 @@ import { Component, Vue } from "vue-property-decorator";
 import PokemonContainer from "../components/PokemonContainer.vue";
 import PokemonModal from "../components/PokemonModal.vue";
 import { modalStore } from "../store/modal.module";
+import { drawerStore } from "../store/drawer.module";
+import PokemonDrawer from "@/components/PokemonDrawer.vue";
 
 @Component({
   components: {
     PokemonContainer,
     PokemonModal,
+    PokemonDrawer,
   },
 })
 export default class HomeView extends Vue {
   get showModal() {
     return modalStore.showModal;
+  }
+
+  get showDrawer() {
+    return drawerStore.showDrawer;
   }
 
   closeModal() {
