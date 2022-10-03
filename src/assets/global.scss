@@ -1,0 +1,91 @@
+/* automatic/manual light mode */
+:root,
+:root.light {
+  --color-50: #e4e9ee;
+  --color-100: #f1f5f9;
+  --color-200: #e2e8f0;
+  --color-300: #cbd5e1;
+  --color-400: #b9c5d8;
+  --text-color: #1a202c;
+  --tooltip-bg: #1a202c;
+  --tooltip-color: #f8fafc;
+  --card-color-from: #ef4444;
+  --card-color-to: #7f1d1d;
+  --image-color-from: #a2dbfa;
+  --image-color-to: #fd9f39;
+}
+
+/* automatic dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-50: #64748b;
+    --color-100: #475569;
+    --color-200: #334155;
+    --color-300: #1e293b;
+    --color-400: #0f172a;
+    --text-color: #f7fafc;
+    --tooltip-bg: #f7fafc;
+    --tooltip-color: #1a202c;
+    --card-color-from: #4d6280;
+    --card-color-to: #3a4c66;
+    --image-color-from: #cbd5e1;
+    --image-color-to: #4e5a6b;
+  }
+}
+
+/* manual dark mode */
+:root.dark {
+  --color-50: #64748b;
+  --color-100: #475569;
+  --color-200: #334155;
+  --color-300: #1e293b;
+  --color-400: #0f172a;
+  --text-color: #f7fafc;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color: var(--color-50);
+  color: var(--text-color);
+  font-family: "Montserrat", sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+li {
+  list-style: none;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite;
+}

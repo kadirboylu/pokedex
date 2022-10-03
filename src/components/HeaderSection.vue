@@ -1,0 +1,116 @@
+<template>
+  <header>
+    <button @click="toggleDropdown" class="menu-button" :class="{ 'fas fa-bars': !showMenu, 'fas fa-times': showMenu }"></button>
+    <a href="/" class="header-logo">
+      <img alt="pokeball" src="@/assets/image/pokeball.webp" />
+      <h1>POKEDEX!</h1>
+    </a>
+    <nav :class="{ show: showMenu }">
+      <a href="/">Home</a>
+      <a href="/favorites">Favorites</a>
+      <a href="/login">Log In</a>
+      <a href="/signup">Sign Up</a>
+      <ThemeSwitcher />
+    </nav>
+  </header>
+</template>
+
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import ThemeSwitcher from "./ThemeSwitcher.vue";
+
+@Component({
+  components: {
+    ThemeSwitcher,
+  },
+})
+export default class HeaderSection extends Vue {
+  showMenu = false;
+  menuStyle = {
+    display: "flex",
+  };
+
+  toggleDropdown(): boolean {
+    return (this.showMenu = !this.showMenu);
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+header {
+  background-color: var(--color-400);
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  padding: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+
+  img {
+    width: 50px;
+    margin: 0 0.25rem;
+  }
+
+  h1 {
+    font-family: "Sigmar One", cursive;
+  }
+}
+
+nav {
+  display: flex;
+  background-color: transparent;
+
+  a {
+    margin: 0 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      opacity: 60%;
+    }
+  }
+}
+
+.menu-button {
+  display: none;
+  font-size: 1.5rem;
+  margin-left: 0.5rem;
+  border: none;
+  background-color: transparent;
+  width: 30px;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  nav {
+    position: absolute;
+    top: 66px;
+    left: -1000px;
+    background-color: var(--color-300);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    z-index: 5;
+    transition: all 0.3s ease-in-out;
+
+    a {
+      margin: 1rem;
+    }
+  }
+
+  .menu-button {
+    display: block;
+  }
+
+  .show {
+    left: 0;
+  }
+}
+</style>

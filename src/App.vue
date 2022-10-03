@@ -1,0 +1,38 @@
+<template>
+  <div id="app">
+    <HeaderSection />
+    <div class="router">
+      <router-view />
+    </div>
+    <FooterSection />
+  </div>
+</template>
+
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import HeaderSection from "@/components/HeaderSection.vue";
+import FooterSection from "@/components/FooterSection.vue";
+
+@Component({
+  components: {
+    HeaderSection,
+    FooterSection,
+  },
+})
+export default class App extends Vue {
+  created() {
+    if (localStorage.getItem("theme") === "dark") {
+      document.documentElement.classList.add("dark");
+    } else if (localStorage.getItem("theme") === "light") {
+      document.documentElement.classList.add("light");
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.router {
+  min-height: calc(100vh - 106px);
+  padding: 1rem;
+}
+</style>
