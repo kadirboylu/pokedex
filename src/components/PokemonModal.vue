@@ -75,9 +75,9 @@ export default class PokemonModal extends Vue {
 
 .modal-container {
   position: relative;
-  width: 95%;
+  width: 70%;
   min-width: 320px;
-  height: 90vh;
+  max-height: 90vh;
   overflow-y: auto;
   margin: 0px auto;
   padding: 20px 30px;
