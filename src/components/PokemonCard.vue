@@ -11,13 +11,21 @@ d
             <h2 class="name">{{ pokemon.name }}</h2>
           </div>
           <div class="flip-card-back">
+            <h2>{{ pokemon.name }}</h2>
+            <div @mouseenter="openOptions" @mouseleave="closeOptions" class="options-wrapper">
+              <button class="view-option">Click to see more</button>
+              <div v-if="showOptions" class="options">
+                <a class="view-option" :href="`/pokemon/${pokemon.name}`">Page View</a>
+                <button class="view-option" @click="openModal">Modal View</button>
+                <button class="view-option">Drawer View</button>
+              </div>
+            </div>
             <h3>Height</h3>
             <p>{{ pokemon.height }} Decimetres</p>
             <h3>Weight</h3>
             <p>{{ pokemon.weight }} Hectograms</p>
             <h3>Base Experience</h3>
             <p>{{ pokemon.base_experience }} XP</p>
-            <a :href="`/pokemon/${pokemon.name}`">Click to see more</a>
           </div>
         </div>
       </div>
@@ -28,12 +36,27 @@ d
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { PokemonResponse } from "@/service";
+import { modalStore } from "../store/modal.module";
 
 @Component({
   components: {},
 })
 export default class PokemonCard extends Vue {
   @Prop({ required: true }) pokemon!: PokemonResponse;
+
+  showOptions = false;
+
+  openOptions() {
+    this.showOptions = true;
+  }
+
+  closeOptions() {
+    this.showOptions = false;
+  }
+
+  openModal() {
+    modalStore.openModal(this.pokemon);
+  }
 }
 </script>
 
@@ -86,10 +109,23 @@ export default class PokemonCard extends Vue {
   transform: rotateY(180deg);
   padding: 1rem 0 0 1.25rem;
 
-  a {
-    display: block;
-    margin-top: 1rem;
-    width: max-content;
+  h2 {
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: "Sigmar One", cursive;
+    text-transform: uppercase;
+    word-break: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+
+  h3 {
+    font-size: 16px;
+    margin: 0.25rem 0;
   }
 }
 
@@ -117,8 +153,40 @@ export default class PokemonCard extends Vue {
   border-radius: 50px 0 50px 0;
 }
 
-h2,
-h3 {
+.options-wrapper {
+  position: relative;
+  float: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin: 0.25rem 0;
+
+  .options {
+    position: absolute;
+    top: 31px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .view-option {
+    width: 170px;
+    text-align: center;
+    padding: 0.5rem;
+    border: none;
+    background-color: var(--color-300);
+    color: var(--text-color);
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 1px solid white;
+    transition: all 0.3s ease-in;
+
+    &:hover {
+      color: var(--color-50);
+    }
+  }
 }
 </style>

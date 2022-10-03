@@ -7,19 +7,31 @@
     <div class="pokemon-list">
       <PokemonContainer />
     </div>
+    <PokemonModal v-if="showModal" @close="closeModal" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import PokemonContainer from "../components/PokemonContainer.vue";
+import PokemonModal from "../components/PokemonModal.vue";
+import { modalStore } from "../store/modal.module";
 
 @Component({
   components: {
     PokemonContainer,
+    PokemonModal,
   },
 })
-export default class HomeView extends Vue {}
+export default class HomeView extends Vue {
+  get showModal() {
+    return modalStore.showModal;
+  }
+
+  closeModal() {
+    modalStore.closeModal();
+  }
+}
 </script>
 
 <style lang="scss" scoped>
