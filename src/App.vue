@@ -5,6 +5,7 @@
       <router-view />
     </div>
     <FooterSection />
+    <BaseToast />
   </div>
 </template>
 
@@ -12,11 +13,13 @@
 import { Component, Vue } from "vue-property-decorator";
 import HeaderSection from "@/components/HeaderSection.vue";
 import FooterSection from "@/components/FooterSection.vue";
+import BaseToast from "./components/BaseToast.vue";
 
 @Component({
   components: {
     HeaderSection,
     FooterSection,
+    BaseToast,
   },
 })
 export default class App extends Vue {
