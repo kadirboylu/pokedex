@@ -26,9 +26,9 @@ export const loginUser = async (email: string, password: string): Promise<AuthRe
   return res.data;
 };
 
-export const registerUser = async (email: string, password: string): Promise<AuthResponse> => {
+export const registerUser = async (username: string, email: string, password: string): Promise<AuthResponse> => {
   const res = await axios.post(`${strapiURL}auth/local/register`, {
-    username: email,
+    username,
     email,
     password,
   });

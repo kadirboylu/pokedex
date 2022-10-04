@@ -13,7 +13,7 @@
       </div>
       <div class="form-control">
         <label for="password">Password</label>
-        <input type="password" id="password" v-model="password" @input="deneme" />
+        <input type="password" id="password" v-model="password" />
         <p v-if="passwordError" class="error">{{ passwordError }}</p>
       </div>
       <button class="btn" type="submit" :disabled="!validated">Sign Up</button>
@@ -24,6 +24,8 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { toastStore } from "@/store/toast.module";
+import { registerUser } from "@/service";
+import { authStore } from "@/store/auth.module";
 
 @Component({
   components: {},
@@ -33,10 +35,6 @@ export default class SignUpView extends Vue {
   email = "";
   password = "";
   validated = false;
-
-  deneme() {
-    console.log(this.password);
-  }
 
   get usernameError(): string {
     const regex = /^[a-zA-Z0-9]{3,}$/;
@@ -87,8 +85,21 @@ export default class SignUpView extends Vue {
     }
   }
 
-  signup(): void {
-    toastStore.createToast({ message: "User signed up successfully", type: "success" });
+  async signup(): Promise<void> {
+    try {
+      const response = await registerUser(this.username, this.email, this.password);
+      authStore.login(response);
+      toastStore.createToast({
+        message: "You have successfully signed up",
+        type: "success",
+      });
+      this.$router.push({ name: "home" });
+    } catch (error) {
+      toastStore.createToast({
+        message: "Something went wrong",
+        type: "error",
+      });
+    }
   }
 }
 </script>
