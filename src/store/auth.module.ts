@@ -6,8 +6,8 @@ import { toastStore } from "./toast.module";
 @Module({ name: "auth-module", dynamic: true, store, namespaced: true })
 class AuthModule extends VuexModule {
   jwt = "";
-  user: User | null = JSON.parse(sessionStorage.getItem("user") as string) || null;
-  isLogin = JSON.parse(sessionStorage.getItem("user") as string) ? true : false;
+  user: User | null = JSON.parse(localStorage.getItem("user") as string) || null;
+  isLogin = JSON.parse(localStorage.getItem("user") as string) ? true : false;
 
   @Mutation
   login(data: AuthResponse): void {
@@ -15,8 +15,8 @@ class AuthModule extends VuexModule {
     this.user = data.user;
     this.isLogin = true;
 
-    sessionStorage.setItem("jwt", data.jwt);
-    sessionStorage.setItem("user", JSON.stringify(data.user));
+    localStorage.setItem("jwt", data.jwt);
+    localStorage.setItem("user", JSON.stringify(data.user));
   }
 
   @Mutation
@@ -25,8 +25,8 @@ class AuthModule extends VuexModule {
     this.user = null;
     this.isLogin = false;
 
-    sessionStorage.removeItem("jwt");
-    sessionStorage.removeItem("user");
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("user");
 
     toastStore.createToast({ message: "You have been logged out", type: "info" });
   }

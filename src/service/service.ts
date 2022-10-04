@@ -1,5 +1,5 @@
 import axios from "axios";
-import { PokemonListResponse, PokemonResponse, AuthResponse } from "./types";
+import { PokemonListResponse, PokemonResponse, AuthResponse, User } from "./types";
 
 const pokemonURL = "https://pokeapi.co/api/v2/pokemon/";
 
@@ -33,5 +33,26 @@ export const registerUser = async (username: string, email: string, password: st
     password,
   });
 
+  return res.data;
+};
+
+export const getUser = async (jwt: string): Promise<AuthResponse> => {
+  const res = await axios.get(`${strapiURL}users/me`, {
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
+  });
+
+  return res.data;
+};
+
+export const updateUserById = async (id: number, jwt: string, data: User): Promise<AuthResponse> => {
+  const res = await axios.put(`${strapiURL}users/${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
+  });
+
+  localStorage.setItem("user", JSON.stringify(res.data));
   return res.data;
 };

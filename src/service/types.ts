@@ -52,6 +52,11 @@ export interface PokemonResponse {
   };
 }
 
+export interface Favorites {
+  name: string;
+  group: string;
+}
+
 export interface User {
   blocked: boolean;
   confirmed: boolean;
@@ -61,6 +66,7 @@ export interface User {
   provider: string;
   updatedAt: string;
   username: string;
+  favorites: Favorites[];
 }
 
 export interface AuthResponse {
