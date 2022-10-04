@@ -29,7 +29,7 @@ export default class BaseToast extends Vue {
 <style lang="scss" scoped>
 .toasts {
   position: fixed;
-  top: 0;
+  top: 65px;
   right: 0;
   z-index: 9999;
   display: flex;
