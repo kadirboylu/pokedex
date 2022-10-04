@@ -11,7 +11,16 @@
       <a v-if="!isLoggedIn" href="/login">Log In</a>
       <a v-if="!isLoggedIn" href="/signup">Sign Up</a>
       <p v-if="isLoggedIn" class="username">{{ username }}</p>
-      <button v-if="isLoggedIn" class="logout" @click="logout">Log Out</button>
+      <button
+        v-if="isLoggedIn"
+        class="logout"
+        @click="
+          logout();
+          closeDropdown();
+        "
+      >
+        Log Out
+      </button>
       <ThemeSwitcher />
     </nav>
   </header>
@@ -35,6 +44,10 @@ export default class HeaderSection extends Vue {
 
   toggleDropdown(): boolean {
     return (this.showMenu = !this.showMenu);
+  }
+
+  closeDropdown(): boolean {
+    return (this.showMenu = false);
   }
 
   get isLoggedIn(): boolean {
@@ -97,6 +110,7 @@ nav {
   .username {
     margin: 0 0.5rem;
     font-weight: 500;
+    transition: all 0.3s ease-in-out;
   }
   .logout {
     background-color: red;
@@ -137,12 +151,16 @@ nav {
     left: -1000px;
     background-color: var(--color-300);
     width: 100%;
+    padding-bottom: 1rem;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     z-index: 5;
     transition: all 0.3s ease-in-out;
 
-    a {
+    a,
+    .username,
+    .logout {
       margin: 1rem;
     }
   }
