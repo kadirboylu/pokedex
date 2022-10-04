@@ -18,6 +18,7 @@ import PokemonContainer from "../components/PokemonContainer.vue";
 import PokemonModal from "../components/PokemonModal.vue";
 import { modalStore } from "../store/modal.module";
 import { drawerStore } from "../store/drawer.module";
+import { authStore } from "@/store/auth.module";
 import PokemonDrawer from "@/components/PokemonDrawer.vue";
 
 @Component({
@@ -34,6 +35,12 @@ export default class HomeView extends Vue {
 
   get showDrawer() {
     return drawerStore.showDrawer;
+  }
+
+  created() {
+    if (!authStore.isLogin) {
+      this.$router.push("/login");
+    }
   }
 }
 </script>

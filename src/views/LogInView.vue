@@ -19,6 +19,8 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { toastStore } from "@/store/toast.module";
+import { loginUser } from "@/service";
+import { authStore } from "@/store/auth.module";
 
 @Component({
   components: {},
@@ -29,9 +31,9 @@ export default class LoginView extends Vue {
   emailError = "";
   passwordError = "";
 
-  login(): undefined | void {
+  async login() {
     const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/g;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*/.?&])[A-Za-z\d@$!./%*?&]{8,}$/;
 
     if (!this.email) {
       this.emailError = "Email is required";
@@ -47,13 +49,23 @@ export default class LoginView extends Vue {
       this.passwordError = "Password is required";
       return;
     } else if (!passwordRegex.test(this.password)) {
-      this.passwordError = "Password is not valid (min 8 characters, 1 uppercase, 1 lowercase, 1 number)";
+      this.passwordError =
+        "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character";
       return;
     } else {
       this.passwordError = "";
     }
 
-    toastStore.createToast({ message: "User logged in successfully", type: "success" });
+    try {
+      const response = await loginUser(this.email, this.password);
+      authStore.login(response);
+      toastStore.createToast({ message: "User logged in successfully", type: "success" });
+
+      this.$router.push({ name: "home" });
+    } catch (error) {
+      console.log(error);
+      toastStore.createToast({ message: "Invalid email or password", type: "error" });
+    }
   }
 }
 </script>

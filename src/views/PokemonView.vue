@@ -41,6 +41,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import BaseLoader from "@/components/BaseLoader.vue";
 import { getPokemon, PokemonResponse } from "@/service";
+import { authStore } from "@/store/auth.module";
 
 @Component({
   components: {
@@ -69,6 +70,10 @@ export default class PokemonView extends Vue {
   error = "";
 
   async created() {
+    if (!authStore.isLogin) {
+      this.$router.push("/login");
+    }
+
     let name: string = this.$route.params.name;
 
     if (!name) {

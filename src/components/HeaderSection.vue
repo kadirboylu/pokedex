@@ -8,8 +8,10 @@
     <nav :class="{ show: showMenu }">
       <a href="/">Home</a>
       <a href="/favorites">Favorites</a>
-      <a href="/login">Log In</a>
-      <a href="/signup">Sign Up</a>
+      <a v-if="!isLoggedIn" href="/login">Log In</a>
+      <a v-if="!isLoggedIn" href="/signup">Sign Up</a>
+      <p v-if="isLoggedIn" class="username">{{ username }}</p>
+      <button v-if="isLoggedIn" class="logout" @click="logout">Log Out</button>
       <ThemeSwitcher />
     </nav>
   </header>
@@ -18,6 +20,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import ThemeSwitcher from "./ThemeSwitcher.vue";
+import { authStore } from "@/store/auth.module";
 
 @Component({
   components: {
@@ -33,6 +36,19 @@ export default class HeaderSection extends Vue {
   toggleDropdown(): boolean {
     return (this.showMenu = !this.showMenu);
   }
+
+  get isLoggedIn(): boolean {
+    return authStore.isLogin;
+  }
+
+  logout(): void {
+    authStore.logout();
+    this.$router.push("/login");
+  }
+
+  get username(): string {
+    return authStore.user?.username || "";
+  }
 }
 </script>
 
@@ -44,6 +60,7 @@ header {
   padding: 0.5rem 0;
   display: flex;
   align-items: center;
+  user-select: none;
   transition: all 0.3s ease-in-out;
 }
 
@@ -64,6 +81,7 @@ header {
 
 nav {
   display: flex;
+  align-items: center;
   background-color: transparent;
 
   a {
@@ -73,6 +91,30 @@ nav {
 
     &:hover {
       opacity: 60%;
+    }
+  }
+
+  .username {
+    margin: 0 0.5rem;
+    font-weight: 500;
+  }
+  .logout {
+    background-color: red;
+    border: none;
+    border-radius: 5px;
+    margin: 0 0.5rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      opacity: 0.85;
+    }
+
+    &:active {
+      transform: scale(0.95);
     }
   }
 }

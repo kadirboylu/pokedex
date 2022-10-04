@@ -1,4 +1,3 @@
-d
 <template>
   <div class="container">
     <div>
@@ -13,7 +12,7 @@ d
           <div class="flip-card-back">
             <h2>{{ pokemon.name }}</h2>
             <div @mouseenter="openOptions" @mouseleave="closeOptions" class="options-wrapper">
-              <button class="view-option">Click to see more</button>
+              <button class="view-option">Details</button>
               <div v-if="showOptions" class="options">
                 <a class="view-option" :href="`/pokemon/${pokemon.name}`">Page View</a>
                 <button class="view-option" @click="openModal">Modal View</button>

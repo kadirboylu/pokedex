@@ -2,9 +2,9 @@
   <div class="signup">
     <form @submit.prevent="signup">
       <div class="form-control">
-        <label for="name">Name</label>
-        <input type="text" id="Name" v-model="name" />
-        <p v-if="nameError" class="error">{{ nameError }}</p>
+        <label for="username">Username</label>
+        <input type="text" id="username" v-model="username" />
+        <p v-if="usernameError" class="error">{{ usernameError }}</p>
       </div>
       <div class="form-control">
         <label for="email">Email</label>
@@ -13,7 +13,7 @@
       </div>
       <div class="form-control">
         <label for="password">Password</label>
-        <input type="password" id="password" v-model="password" />
+        <input type="password" id="password" v-model="password" @input="deneme" />
         <p v-if="passwordError" class="error">{{ passwordError }}</p>
       </div>
       <button class="btn" type="submit" :disabled="!validated">Sign Up</button>
@@ -29,15 +29,28 @@ import { toastStore } from "@/store/toast.module";
   components: {},
 })
 export default class SignUpView extends Vue {
-  name = "";
+  username = "";
   email = "";
   password = "";
   validated = false;
 
-  get nameError(): string {
-    if (!this.name) {
+  deneme() {
+    console.log(this.password);
+  }
+
+  get usernameError(): string {
+    const regex = /^[a-zA-Z0-9]{3,}$/;
+
+    if (this.username.length < 3) {
+      return "Username must be at least 3 characters";
+    }
+    if (!this.username) {
       this.validated = false;
       return "Name is required";
+    } else if (!regex.test(this.username)) {
+      return "Username must be at least 3 characters long and contain only letters and numbers";
+    } else if (this.username.length < 3) {
+      return "Username must be at least 3 characters";
     } else {
       this.validated = true;
       return "";
@@ -60,14 +73,14 @@ export default class SignUpView extends Vue {
   }
 
   get passwordError(): string {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*/.?&])[A-Za-z\d@$!./%*?&]{8,}$/;
 
     if (!this.password) {
       this.validated = false;
       return "Password is required";
     } else if (!regex.test(this.password)) {
       this.validated = false;
-      return "Password is not valid (min 8 characters, 1 uppercase, 1 lowercase, 1 number)";
+      return "min 8 characters, 1 uppercase, 1 lowercase, 1 number, 1 special character";
     } else {
       this.validated = true;
       return "";

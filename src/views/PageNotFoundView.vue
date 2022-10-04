@@ -6,6 +6,22 @@
   </div>
 </template>
 
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import { authStore } from "@/store/auth.module";
+
+@Component({
+  components: {},
+})
+export default class PageNotFoundView extends Vue {
+  created() {
+    if (!authStore.isLogin) {
+      this.$router.push("/login");
+    }
+  }
+}
+</script>
+
 <style lang="scss" scoped>
 .base {
   display: flex;
