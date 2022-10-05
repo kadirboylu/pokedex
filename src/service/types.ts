@@ -66,7 +66,7 @@ export interface User {
   provider: string;
   updatedAt: string;
   username: string;
-  groups: [];
+  groups: string[];
   favorites: Favorites[];
   profilePicture: string;
 }

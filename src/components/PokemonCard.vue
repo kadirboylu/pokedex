@@ -10,7 +10,10 @@
             <h2 class="name">{{ pokemon.name }}</h2>
           </div>
           <div class="flip-card-back">
-            <h2>{{ pokemon.name }}</h2>
+            <div class="head">
+              <h2>{{ pokemon.name }}</h2>
+              <GroupSelection :pokemon="pokemon" />
+            </div>
             <div @mouseenter="openOptions" @mouseleave="closeOptions" class="options-wrapper">
               <button class="view-option">Details</button>
               <div v-if="showOptions" class="options">
@@ -37,9 +40,12 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import { PokemonResponse } from "@/service";
 import { modalStore } from "../store/modal.module";
 import { drawerStore } from "../store/drawer.module";
+import GroupSelection from "./GroupSelection.vue";
 
 @Component({
-  components: {},
+  components: {
+    GroupSelection,
+  },
 })
 export default class PokemonCard extends Vue {
   @Prop({ required: true }) pokemon!: PokemonResponse;
@@ -147,6 +153,14 @@ export default class PokemonCard extends Vue {
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
+}
+
+.head {
+  height: 35px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 0.75rem;
 }
 
 .pokemon-img {
