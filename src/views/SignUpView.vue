@@ -13,13 +13,23 @@
       </div>
       <div class="form-control">
         <label for="password">Password</label>
-        <input type="password" id="password" v-model="password" />
+        <input :type="passwordType" id="password" v-model="password" />
         <p v-if="passwordError" class="error">{{ passwordError }}</p>
+        <i
+          class="show-password"
+          :class="{ 'fa-regular fa-eye': passwordType === 'password', 'fa-regular fa-eye-slash': passwordType === 'text' }"
+          @click="showPassword1()"
+        ></i>
       </div>
       <div class="form-control">
         <label for="password2">Password</label>
-        <input type="password" id="password2" v-model="password2" />
+        <input :type="password2Type" id="password2" v-model="password2" />
         <p v-if="password2Error" class="error">{{ password2Error }}</p>
+        <i
+          class="show-password"
+          :class="{ 'fa-regular fa-eye': password2Type === 'password', 'fa-regular fa-eye-slash': password2Type === 'text' }"
+          @click="showPassword2()"
+        ></i>
       </div>
       <div class="form-control">
         <label for="profile-picture">
@@ -50,22 +60,30 @@ export default class SignUpView extends Vue {
   username = "";
   email = "";
   password = "";
+  passwordType = "password";
   password2 = "";
+  password2Type = "password";
   image = "";
 
   handleImage(e: Event) {
     const target = e.target as HTMLInputElement;
     const file = target.files?.[0];
     if (file) {
-      // string to base64
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
         const base64 = reader.result;
-        console.log(base64);
         this.image = base64 as string;
       };
     }
+  }
+
+  showPassword1() {
+    this.passwordType = this.passwordType === "password" ? "text" : "password";
+  }
+
+  showPassword2() {
+    this.password2Type = this.password2Type === "password" ? "text" : "password";
   }
 
   get usernameError(): string {
@@ -157,6 +175,7 @@ export default class SignUpView extends Vue {
     margin-bottom: 3rem;
     text-decoration-line: underline;
   }
+
   form {
     width: 320px;
     display: flex;
@@ -166,6 +185,7 @@ export default class SignUpView extends Vue {
     user-select: none;
 
     .form-control {
+      position: relative;
       width: 100%;
       margin-bottom: 1rem;
 
@@ -173,6 +193,20 @@ export default class SignUpView extends Vue {
         display: block;
         margin-bottom: 0.5rem;
         font-weight: 500;
+      }
+
+      .show-password {
+        position: absolute;
+        top: 45px;
+        right: 10px;
+        transform: translateY(-50%);
+        color: rgb(33, 101, 146);
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+          color: red;
+        }
       }
 
       input {

@@ -8,8 +8,13 @@
       </div>
       <div class="form-control">
         <label for="password">Password</label>
-        <input type="password" id="password" v-model="password" />
+        <input :type="passwordType" id="password" v-model="password" />
         <p v-if="passwordError" class="error">{{ passwordError }}</p>
+        <i
+          class="show-password"
+          :class="{ 'fa-regular fa-eye': passwordType === 'password', 'fa-regular fa-eye-slash': passwordType === 'text' }"
+          @click="showPassword()"
+        ></i>
       </div>
       <button class="btn" type="submit">Log in</button>
     </form>
@@ -30,6 +35,11 @@ export default class LoginView extends Vue {
   password = "";
   emailError = "";
   passwordError = "";
+  passwordType = "password";
+
+  showPassword() {
+    this.passwordType = this.passwordType === "password" ? "text" : "password";
+  }
 
   async login() {
     const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
@@ -59,7 +69,7 @@ export default class LoginView extends Vue {
     try {
       const response = await loginUser(this.email, this.password);
       authStore.login(response);
-      toastStore.createToast({ message: "User logged in successfully", type: "success" });
+      toastStore.createToast({ message: "User successfully logged in", type: "success" });
 
       this.$router.push({ name: "home" });
     } catch (error) {
@@ -92,6 +102,7 @@ export default class LoginView extends Vue {
     user-select: none;
 
     .form-control {
+      position: relative;
       width: 100%;
       margin-bottom: 1rem;
 
@@ -99,6 +110,20 @@ export default class LoginView extends Vue {
         display: block;
         margin-bottom: 0.5rem;
         font-weight: 500;
+      }
+
+      .show-password {
+        position: absolute;
+        top: 45px;
+        right: 10px;
+        transform: translateY(-50%);
+        color: rgb(33, 101, 146);
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+          color: red;
+        }
       }
 
       input {
