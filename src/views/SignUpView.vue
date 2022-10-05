@@ -16,6 +16,22 @@
         <input type="password" id="password" v-model="password" />
         <p v-if="passwordError" class="error">{{ passwordError }}</p>
       </div>
+      <div class="form-control">
+        <label for="password2">Password</label>
+        <input type="password" id="password2" v-model="password2" />
+        <p v-if="password2Error" class="error">{{ password2Error }}</p>
+      </div>
+      <div class="form-control">
+        <label for="profile-picture">
+          Profile Picture
+          <div id="display-image">
+            <img v-if="image" :src="image" alt="" />
+            <p v-else>Choose image</p>
+          </div>
+        </label>
+        <input type="file" id="profile-picture" accept="image/jpeg, image/png, image/jpg" @input="handleImage" />
+        <p v-if="!image" class="error">Image is required</p>
+      </div>
       <button class="btn" type="submit" :disabled="!validated">Sign Up</button>
     </form>
   </div>
@@ -34,7 +50,23 @@ export default class SignUpView extends Vue {
   username = "";
   email = "";
   password = "";
-  validated = false;
+  password2 = "";
+  image = "";
+
+  handleImage(e: Event) {
+    const target = e.target as HTMLInputElement;
+    const file = target.files?.[0];
+    if (file) {
+      // string to base64
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const base64 = reader.result;
+        console.log(base64);
+        this.image = base64 as string;
+      };
+    }
+  }
 
   get usernameError(): string {
     const regex = /^[a-zA-Z0-9]{3,}$/;
@@ -43,14 +75,12 @@ export default class SignUpView extends Vue {
       return "Username must be at least 3 characters";
     }
     if (!this.username) {
-      this.validated = false;
       return "Name is required";
     } else if (!regex.test(this.username)) {
       return "Username must be at least 3 characters long and contain only letters and numbers";
     } else if (this.username.length < 3) {
       return "Username must be at least 3 characters";
     } else {
-      this.validated = true;
       return "";
     }
   }
@@ -59,13 +89,10 @@ export default class SignUpView extends Vue {
     const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
     if (!this.email) {
-      this.validated = false;
       return "Email is required";
     } else if (!regex.test(this.email)) {
-      this.validated = false;
       return "Email is not valid (johndoe@example.com)";
     } else {
-      this.validated = true;
       return "";
     }
   }
@@ -74,20 +101,33 @@ export default class SignUpView extends Vue {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*/.?&])[A-Za-z\d@$!./%*?&]{8,}$/;
 
     if (!this.password) {
-      this.validated = false;
       return "Password is required";
     } else if (!regex.test(this.password)) {
-      this.validated = false;
       return "min 8 characters, 1 uppercase, 1 lowercase, 1 number, 1 special character";
     } else {
-      this.validated = true;
       return "";
+    }
+  }
+
+  get password2Error(): string {
+    if (this.password2 !== this.password) {
+      return "Passwords do not match";
+    } else {
+      return "";
+    }
+  }
+
+  get validated(): boolean {
+    if (this.usernameError || this.emailError || this.passwordError || this.password2Error) {
+      return false;
+    } else {
+      return true;
     }
   }
 
   async signup(): Promise<void> {
     try {
-      const response = await registerUser(this.username, this.email, this.password);
+      const response = await registerUser(this.username, this.email, this.password, [], [], this.image);
       authStore.login(response);
       toastStore.createToast({
         message: "You have successfully signed up",
@@ -107,7 +147,7 @@ export default class SignUpView extends Vue {
 <style lang="scss" scoped>
 .signup {
   width: 100%;
-  height: 80vh;
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -188,5 +228,28 @@ export default class SignUpView extends Vue {
   font-weight: 500;
   margin-top: 0.5rem;
   border-radius: 10px;
+}
+
+#display-image {
+  max-width: 320px;
+  margin-top: 1rem;
+  padding: 2rem;
+  border-radius: 10px;
+  background-color: var(--color-300);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  img {
+    height: 100px;
+    max-width: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+}
+
+input[type="file"] {
+  display: none;
 }
 </style>

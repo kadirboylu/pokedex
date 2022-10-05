@@ -10,7 +10,10 @@
       <a href="/favorites">Favorites</a>
       <a v-if="!isLoggedIn" href="/login">Log In</a>
       <a v-if="!isLoggedIn" href="/signup">Sign Up</a>
-      <p v-if="isLoggedIn" class="username">{{ username }}</p>
+      <div class="user">
+        <img v-if="isLoggedIn" :src="profilePicture" alt="profile-picture" />
+        <p v-if="isLoggedIn" class="username">{{ username }}</p>
+      </div>
       <button
         v-if="isLoggedIn"
         class="logout"
@@ -62,6 +65,10 @@ export default class HeaderSection extends Vue {
   get username(): string {
     return authStore.user?.username || "";
   }
+
+  get profilePicture(): string {
+    return authStore.user?.profilePicture || "";
+  }
 }
 </script>
 
@@ -107,10 +114,22 @@ nav {
     }
   }
 
-  .username {
-    margin: 0 0.5rem;
-    font-weight: 500;
-    transition: all 0.3s ease-in-out;
+  .user {
+    display: flex;
+    align-items: center;
+    margin: 0 0.75rem;
+
+    img {
+      max-height: 50px;
+      margin-right: 1rem;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+    .username {
+      font-weight: 500;
+      transition: all 0.3s ease-in-out;
+    }
   }
   .logout {
     background-color: red;
@@ -159,7 +178,7 @@ nav {
     transition: all 0.3s ease-in-out;
 
     a,
-    .username,
+    .user,
     .logout {
       margin: 1rem;
     }

@@ -66,7 +66,9 @@ export interface User {
   provider: string;
   updatedAt: string;
   username: string;
+  groups: [];
   favorites: Favorites[];
+  profilePicture: string;
 }
 
 export interface AuthResponse {
