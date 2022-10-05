@@ -67,6 +67,7 @@ export default class FavoritesView extends Vue {
         text-align: center;
         font-family: "Sigmar One", cursive;
         font-weight: 500;
+        text-transform: uppercase;
       }
     }
   }
