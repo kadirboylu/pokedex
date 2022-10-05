@@ -1,9 +1,15 @@
 <template>
-  <div class="wrapper">
+  <div>
     <BaseLoader v-if="loading" />
-    <TransitionGroup v-if="pokemons[0]" name="list" tag="main">
-      <PokemonCard v-for="pokemon in pokemons" :key="pokemon.name" :pokemon="pokemon" />
-    </TransitionGroup>
+    <div v-if="pokemons[0]" class="wrapper">
+      <div class="card" v-for="pokemon in pokemons" :key="pokemon.name">
+        <a :href="`/pokemon/${pokemon.name}`" class="pokemon-info">
+          <img :src="pokemon.sprites.other.home.front_default" alt="pokemon" />
+          <p>{{ pokemon.name }}</p>
+        </a>
+        <i class="fas fa-times" @click="remove(pokemon.name)"></i>
+      </div>
+    </div>
     <p class="empty" v-if="!pokemons[0]">EMPTY</p>
     <p class="error" v-if="error">{{ error }}</p>
   </div>
@@ -13,12 +19,10 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { authStore } from "@/store/auth.module";
 import { getPokemon, PokemonResponse } from "@/service";
-import PokemonCard from "./PokemonCard.vue";
 import BaseLoader from "./BaseLoader.vue";
 
 @Component({
   components: {
-    PokemonCard,
     BaseLoader,
   },
 })
@@ -44,31 +48,68 @@ export default class FavoriteGroup extends Vue {
       this.loading = false;
     }
   }
+
+  remove(name: string) {
+    this.pokemons = this.pokemons.filter((pokemon) => pokemon.name !== name);
+    authStore.removeFromFavorites({ name, group: this.group });
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-main {
-  width: 100%;
-  padding: 1rem;
+.wrapper {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
   align-items: center;
-}
+  justify-content: center;
+  flex-wrap: wrap;
+  height: 100%;
+  width: 100%;
 
-.list-enter-active,
-.list-leave-active {
-  transition: all 0.5s ease;
-}
-.list-enter-from,
-.list-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
-}
+  .card {
+    position: relative;
+    width: 320px;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    background-image: linear-gradient(to right, var(--card-color-from), var(--card-color-to));
+    color: whitesmoke;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+    border-radius: 10px;
+    transition: all 0.5s ease-in-out;
 
-.list-leave-active {
-  position: absolute;
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.05);
+    }
+
+    .pokemon-info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      p {
+        font-family: "Sigmar One", cursive;
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 14px;
+        margin-left: 1rem;
+      }
+
+      img {
+        height: 100px;
+      }
+    }
+  }
+
+  .fa-times {
+    position: absolute;
+    right: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-right: 0.5rem;
+  }
 }
 
 .error {

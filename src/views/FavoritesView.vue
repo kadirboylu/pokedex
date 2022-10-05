@@ -1,6 +1,6 @@
 <template>
   <div class="favorites">
-    <div class="groups">
+    <div v-if="groups[0]" class="groups">
       <ul class="group" v-for="group in groups" :key="group">
         <li>
           <h2 class="group-name">{{ group }}</h2>
@@ -8,6 +8,7 @@
         </li>
       </ul>
     </div>
+    <p v-else class="empty">EMPTY</p>
   </div>
 </template>
 
@@ -68,6 +69,18 @@ export default class FavoritesView extends Vue {
         font-weight: 500;
       }
     }
+  }
+
+  .empty {
+    min-height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    font-family: "Sigmar One", cursive;
+    font-size: 1.5rem;
+    font-weight: 500;
+    opacity: 0.5;
   }
 }
 </style>
