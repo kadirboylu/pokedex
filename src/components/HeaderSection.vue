@@ -10,9 +10,9 @@
       <a href="/favorites">Favorites</a>
       <a v-if="!isLoggedIn" href="/login">Log In</a>
       <a v-if="!isLoggedIn" href="/signup">Sign Up</a>
-      <div class="user">
-        <img v-if="isLoggedIn" :src="profilePicture" alt="profile-picture" />
-        <p v-if="isLoggedIn" class="username">{{ username }}</p>
+      <div v-if="isLoggedIn" class="user">
+        <img :src="profilePicture" alt="profile-picture" />
+        <p class="username">{{ username }}</p>
       </div>
       <button
         v-if="isLoggedIn"
