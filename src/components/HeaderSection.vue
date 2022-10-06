@@ -32,7 +32,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import ThemeSwitcher from "./ThemeSwitcher.vue";
-import { authStore } from "@/store/auth.module";
+import { strapiStore } from "@/store/strapi.module";
 
 @Component({
   components: {
@@ -41,9 +41,6 @@ import { authStore } from "@/store/auth.module";
 })
 export default class HeaderSection extends Vue {
   showMenu = false;
-  menuStyle = {
-    display: "flex",
-  };
 
   toggleDropdown(): boolean {
     return (this.showMenu = !this.showMenu);
@@ -53,21 +50,21 @@ export default class HeaderSection extends Vue {
     return (this.showMenu = false);
   }
 
-  get isLoggedIn(): boolean {
-    return authStore.isLogin;
-  }
-
-  logout(): void {
-    authStore.logout();
+  logout() {
+    strapiStore.logout();
     this.$router.push("/login");
   }
 
+  get isLoggedIn(): boolean {
+    return strapiStore.isLogin;
+  }
+
   get username(): string {
-    return authStore.user?.username || "";
+    return strapiStore.user?.username || "";
   }
 
   get profilePicture(): string {
-    return authStore.user?.profilePicture || "";
+    return strapiStore.user?.profilePicture || "";
   }
 }
 </script>
@@ -123,7 +120,6 @@ nav {
       max-height: 50px;
       margin-right: 1rem;
       border-radius: 50%;
-      cursor: pointer;
       transition: all 0.3s ease-in-out;
     }
     .username {

@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { authStore } from "@/store/auth.module";
+import { strapiStore } from "@/store/strapi.module";
 import FavoriteGroup from "../components/FavoriteGroup.vue";
 
 @Component({
@@ -24,14 +24,14 @@ import FavoriteGroup from "../components/FavoriteGroup.vue";
 })
 export default class FavoritesView extends Vue {
   created() {
-    if (!authStore.isLogin) {
+    if (!strapiStore.isLogin) {
       this.$router.push("/login");
     }
   }
 
   get groups(): string[] {
-    if (authStore.user) {
-      return authStore.user.groups;
+    if (strapiStore.user) {
+      return strapiStore.user.groups;
     } else {
       return [];
     }

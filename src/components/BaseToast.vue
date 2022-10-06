@@ -3,8 +3,8 @@
     <div v-for="(toast, index) in toasts" :key="index" class="toast" :class="toast.type">
       <div class="toast__icon">
         <i v-if="toast.type === 'success'" class="fas fa-check"> </i>
-        <i v-if="toast.type === 'error'" class="fas fa-times"> </i>
-        <i v-if="toast.type === 'info'" class="fas fa-info"> </i>
+        <i v-else-if="toast.type === 'error'" class="fas fa-times"> </i>
+        <i v-else class="fas fa-info"> </i>
       </div>
       <div class="toast__content">
         <p>{{ toast.message }}</p>
@@ -14,13 +14,13 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { toastStore } from "@/store/toast.module";
+import { toastStore, Toast } from "@/store/toast.module";
 
 @Component({
   components: {},
 })
 export default class BaseToast extends Vue {
-  get toasts() {
+  get toasts(): Toast[] {
     return toastStore.toast;
   }
 }

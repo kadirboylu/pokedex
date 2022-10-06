@@ -16,9 +16,8 @@
 import { Component, Vue } from "vue-property-decorator";
 import PokemonContainer from "../components/PokemonContainer.vue";
 import PokemonModal from "../components/PokemonModal.vue";
-import { modalStore } from "../store/modal.module";
-import { drawerStore } from "../store/drawer.module";
-import { authStore } from "@/store/auth.module";
+import { pokemonStore } from "../store/pokemon.module";
+import { strapiStore } from "@/store/strapi.module";
 import PokemonDrawer from "@/components/PokemonDrawer.vue";
 
 @Component({
@@ -29,16 +28,12 @@ import PokemonDrawer from "@/components/PokemonDrawer.vue";
   },
 })
 export default class HomeView extends Vue {
-  get showModal() {
-    return modalStore.showModal;
-  }
-
-  get showDrawer() {
-    return drawerStore.showDrawer;
+  get showModal(): boolean {
+    return pokemonStore.showModal;
   }
 
   created() {
-    if (!authStore.isLogin) {
+    if (!strapiStore.isLogin) {
       this.$router.push("/login");
     }
   }

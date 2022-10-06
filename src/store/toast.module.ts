@@ -1,7 +1,7 @@
 import { store } from "./index";
 import { getModule, Module, Mutation, VuexModule } from "vuex-module-decorators";
 
-interface Toast {
+export interface Toast {
   message: string;
   type: "success" | "error" | "info";
 }

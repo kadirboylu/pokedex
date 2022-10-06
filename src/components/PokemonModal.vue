@@ -14,7 +14,6 @@
                   <p class="weight"><span>Weight: </span>{{ pokemon.weight }} Hectograms</p>
                 </div>
               </div>
-
               <h2 class="stat-heading">types</h2>
               <ul>
                 <li v-for="item in pokemon.types" :key="item.slot" class="stat-box">
@@ -45,16 +44,16 @@
 <script lang="ts">
 import { PokemonResponse } from "@/service";
 import { Component, Vue } from "vue-property-decorator";
-import { modalStore } from "../store/modal.module";
+import { pokemonStore } from "../store/pokemon.module";
 
 @Component({
   components: {},
 })
 export default class PokemonModal extends Vue {
-  pokemon: PokemonResponse = modalStore.pokemonData;
+  pokemon: PokemonResponse = pokemonStore.pokemonData;
 
   closeModal() {
-    modalStore.closeModal();
+    pokemonStore.closeModal();
   }
 
   outsideClick(e: MouseEvent) {
@@ -62,7 +61,7 @@ export default class PokemonModal extends Vue {
     const wrapper = document.querySelector(".modal-wrapper");
 
     if (e.target === wrapper && e.target !== modal) {
-      modalStore.closeModal();
+      pokemonStore.closeModal();
     }
   }
 

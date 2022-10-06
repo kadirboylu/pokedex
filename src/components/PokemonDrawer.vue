@@ -12,7 +12,6 @@
               <p class="weight"><span>Weight: </span>{{ pokemon.weight }} Hectograms</p>
             </div>
           </div>
-
           <h2 class="stat-heading">types</h2>
           <ul>
             <li v-for="item in pokemon.types" :key="item.slot" class="stat-box">
@@ -41,25 +40,25 @@
 <script lang="ts">
 import { PokemonResponse } from "@/service";
 import { Component, Vue } from "vue-property-decorator";
-import { drawerStore } from "../store/drawer.module";
+import { pokemonStore } from "../store/pokemon.module";
 
 @Component
 export default class PokemonDrawer extends Vue {
   get pokemon(): PokemonResponse {
-    return drawerStore.pokemonData;
+    return pokemonStore.pokemonData;
   }
 
   get showDrawer(): boolean {
-    return drawerStore.showDrawer;
+    return pokemonStore.showDrawer;
   }
 
   closeDrawer() {
-    drawerStore.closeDrawer();
+    pokemonStore.closeDrawer();
   }
 
   outsideClick(e: MouseEvent) {
     if (e.target === this.$el) {
-      drawerStore.closeDrawer();
+      pokemonStore.closeDrawer();
     }
   }
 

@@ -2,10 +2,12 @@
   <div>
     <SearchSection class="search-section" @search="update($event)" />
     <BaseLoader v-if="loading" />
-    <TransitionGroup name="list" tag="main">
-      <PokemonCard v-for="pokemon in searchResults" :key="pokemon.name" :pokemon="pokemon" />
-    </TransitionGroup>
-    <p>{{ error }}</p>
+    <div v-if="!error">
+      <TransitionGroup name="list" tag="main">
+        <PokemonCard v-for="pokemon in searchResults" :key="pokemon.name" :pokemon="pokemon" />
+      </TransitionGroup>
+    </div>
+    <p v-else class="error">{{ error }}</p>
   </div>
 </template>
 
@@ -80,5 +82,13 @@ main {
 
 .list-leave-active {
   position: absolute;
+}
+
+.error {
+  width: 100%;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 500;
 }
 </style>

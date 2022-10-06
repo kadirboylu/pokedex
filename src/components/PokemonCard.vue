@@ -38,8 +38,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { PokemonResponse } from "@/service";
-import { modalStore } from "../store/modal.module";
-import { drawerStore } from "../store/drawer.module";
+import { pokemonStore } from "../store/pokemon.module";
 import GroupSelection from "./GroupSelection.vue";
 
 @Component({
@@ -61,11 +60,11 @@ export default class PokemonCard extends Vue {
   }
 
   openModal() {
-    modalStore.openModal(this.pokemon);
+    pokemonStore.openModal(this.pokemon);
   }
 
   openDrawer() {
-    drawerStore.openDrawer(this.pokemon);
+    pokemonStore.openDrawer(this.pokemon);
   }
 }
 </script>

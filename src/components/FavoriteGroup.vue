@@ -1,7 +1,7 @@
 <template>
   <div>
     <BaseLoader v-if="loading" />
-    <div v-if="pokemons[0]" class="wrapper">
+    <div v-if="pokemons" class="wrapper">
       <div class="card" v-for="pokemon in pokemons" :key="pokemon.name">
         <a :href="`/pokemon/${pokemon.name}`" class="pokemon-info">
           <img :src="pokemon.sprites.other.home.front_default" alt="pokemon" />
@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { authStore } from "@/store/auth.module";
+import { strapiStore } from "@/store/strapi.module";
 import { getPokemon, PokemonResponse } from "@/service";
 import BaseLoader from "./BaseLoader.vue";
 
@@ -36,8 +36,8 @@ export default class FavoriteGroup extends Vue {
   async created() {
     try {
       this.loading = true;
-      if (authStore.user) {
-        const { favorites } = authStore.user;
+      if (strapiStore.user) {
+        const { favorites } = strapiStore.user;
         const pokemonList = favorites.filter((pokemon) => pokemon.group === this.group);
 
         this.pokemons = await Promise.all(pokemonList.map((pokemon) => getPokemon(pokemon.name)));
@@ -51,7 +51,7 @@ export default class FavoriteGroup extends Vue {
 
   remove(name: string) {
     this.pokemons = this.pokemons.filter((pokemon) => pokemon.name !== name);
-    authStore.removeFromFavorites({ name, group: this.group });
+    strapiStore.removeFromFavorites({ name, group: this.group });
   }
 }
 </script>

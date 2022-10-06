@@ -14,7 +14,6 @@
           <p class="weight"><span>Weight: </span>{{ pokemon.weight }} Hectograms</p>
         </div>
       </div>
-
       <h2 class="stat-heading">types</h2>
       <ul>
         <li v-for="item in pokemon.types" :key="item.slot" class="stat-box">
@@ -41,7 +40,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import BaseLoader from "@/components/BaseLoader.vue";
 import { getPokemon, PokemonResponse } from "@/service";
-import { authStore } from "@/store/auth.module";
+import { strapiStore } from "@/store/strapi.module";
 
 @Component({
   components: {
@@ -70,7 +69,7 @@ export default class PokemonView extends Vue {
   error = "";
 
   async created() {
-    if (!authStore.isLogin) {
+    if (!strapiStore.isLogin) {
       this.$router.push("/login");
     }
 

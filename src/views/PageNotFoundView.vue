@@ -8,14 +8,14 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { authStore } from "@/store/auth.module";
+import { strapiStore } from "@/store/strapi.module";
 
 @Component({
   components: {},
 })
 export default class PageNotFoundView extends Vue {
   created() {
-    if (!authStore.isLogin) {
+    if (!strapiStore.isLogin) {
       this.$router.push("/login");
     }
   }

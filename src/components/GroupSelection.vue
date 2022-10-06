@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { authStore } from "@/store/auth.module";
+import { strapiStore } from "@/store/strapi.module";
 import { PokemonResponse, Favorites } from "@/service";
 import { toastStore } from "@/store/toast.module";
 
@@ -34,12 +34,12 @@ export default class GroupSelection extends Vue {
   inputValue = "";
   showGroups = false;
 
-  get groups() {
-    return authStore.user?.groups;
+  get groups(): string[] | undefined {
+    return strapiStore.user?.groups;
   }
 
-  get favorites() {
-    return authStore.user?.favorites;
+  get favorites(): Favorites[] | undefined {
+    return strapiStore.user?.favorites;
   }
 
   get findPokemonInFavorites(): Favorites | undefined {
@@ -62,41 +62,42 @@ export default class GroupSelection extends Vue {
     this.showGroups = false;
   }
 
-  addNewGroup() {
+  async addNewGroup() {
     if (this.inputValue) {
-      authStore.addNewGroup(this.inputValue);
+      await strapiStore.addNewGroup(this.inputValue);
       this.inputValue = "";
     } else {
       toastStore.createToast({ message: "Please enter a group name", type: "error" });
     }
   }
 
-  deleteGroup(group: string) {
+  async deleteGroup(group: string) {
     const fav = this.filterFavorites(group);
 
-    if (fav.length > 0) {
-      fav.forEach((favorite) => {
-        authStore.removeFromFavorites(favorite);
-      });
+    // Check if group has favorites already and if so, remove them
+    if (fav) {
+      const promises = fav.map((favorite) => strapiStore.removeFromFavorites(favorite));
+      await Promise.all(promises);
 
-      authStore.removeGroup(group);
+      await strapiStore.removeGroup(group);
     } else {
-      authStore.removeGroup(group);
+      await strapiStore.removeGroup(group);
     }
   }
 
-  addToFavorites(group: string) {
+  async addToFavorites(group: string) {
+    // Check if pokemon is already in favorites and if so, remove it from the old group and add it to the new group
     if (this.findPokemonInFavorites) {
-      this.removeFromFavorites();
-      authStore.addToFavorites({ name: this.pokemon.name, group: group });
+      await this.removeFromFavorites();
+      strapiStore.addToFavorites({ name: this.pokemon.name, group: group });
     } else {
-      authStore.addToFavorites({ name: this.pokemon.name, group: group });
+      strapiStore.addToFavorites({ name: this.pokemon.name, group: group });
     }
   }
 
-  removeFromFavorites() {
+  async removeFromFavorites() {
     if (this.findPokemonInFavorites) {
-      authStore.removeFromFavorites(this.findPokemonInFavorites);
+      await strapiStore.removeFromFavorites(this.findPokemonInFavorites);
     }
   }
 }

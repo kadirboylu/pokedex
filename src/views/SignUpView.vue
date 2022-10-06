@@ -51,7 +51,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { toastStore } from "@/store/toast.module";
 import { registerUser } from "@/service";
-import { authStore } from "@/store/auth.module";
+import { strapiStore } from "@/store/strapi.module";
 
 @Component({
   components: {},
@@ -143,20 +143,18 @@ export default class SignUpView extends Vue {
     }
   }
 
-  async signup(): Promise<void> {
+  async signup() {
     try {
       const response = await registerUser(this.username, this.email, this.password, [], [], this.image);
-      authStore.login(response);
+      strapiStore.login(response);
       toastStore.createToast({
         message: "You have successfully signed up",
         type: "success",
       });
       this.$router.push({ name: "home" });
     } catch (error) {
-      toastStore.createToast({
-        message: "Something went wrong",
-        type: "error",
-      });
+      const err = (error as Error).message;
+      toastStore.createToast({ message: err, type: "error" });
     }
   }
 }

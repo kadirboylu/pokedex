@@ -4,12 +4,10 @@
       <div class="form-control">
         <label for="email">Email</label>
         <input type="email" id="email" v-model="email" />
-        <p v-if="emailError" class="error">{{ emailError }}</p>
       </div>
       <div class="form-control">
         <label for="password">Password</label>
         <input :type="passwordType" id="password" v-model="password" />
-        <p v-if="passwordError" class="error">{{ passwordError }}</p>
         <i
           class="show-password"
           :class="{ 'fa-regular fa-eye': passwordType === 'password', 'fa-regular fa-eye-slash': passwordType === 'text' }"
@@ -25,7 +23,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { toastStore } from "@/store/toast.module";
 import { loginUser } from "@/service";
-import { authStore } from "@/store/auth.module";
+import { strapiStore } from "@/store/strapi.module";
 
 @Component({
   components: {},
@@ -33,8 +31,6 @@ import { authStore } from "@/store/auth.module";
 export default class LoginView extends Vue {
   email = "";
   password = "";
-  emailError = "";
-  passwordError = "";
   passwordType = "password";
 
   showPassword() {
@@ -42,39 +38,16 @@ export default class LoginView extends Vue {
   }
 
   async login() {
-    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*/.?&])[A-Za-z\d@$!./%*?&]{8,}$/;
-
-    if (!this.email) {
-      this.emailError = "Email is required";
-      return;
-    } else if (!emailRegex.test(this.email)) {
-      this.emailError = "Email is not valid (johndoe@example.com)";
-      return;
-    } else {
-      this.emailError = "";
-    }
-
-    if (!this.password) {
-      this.passwordError = "Password is required";
-      return;
-    } else if (!passwordRegex.test(this.password)) {
-      this.passwordError =
-        "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character";
-      return;
-    } else {
-      this.passwordError = "";
-    }
-
     try {
       const response = await loginUser(this.email, this.password);
-      authStore.login(response);
+      strapiStore.login(response);
       toastStore.createToast({ message: "User successfully logged in", type: "success" });
 
       this.$router.push({ name: "home" });
     } catch (error) {
       console.log(error);
-      toastStore.createToast({ message: "Invalid email or password", type: "error" });
+      const err = (error as Error).message;
+      toastStore.createToast({ message: err, type: "error" });
     }
   }
 }
@@ -163,16 +136,5 @@ export default class LoginView extends Vue {
       }
     }
   }
-}
-
-.error {
-  width: fit-content;
-  background-color: #ee4c4ce3;
-  color: #fff;
-  padding: 0.2rem 0.5rem;
-  font-size: 9pt;
-  font-weight: 500;
-  margin-top: 0.5rem;
-  border-radius: 10px;
 }
 </style>
