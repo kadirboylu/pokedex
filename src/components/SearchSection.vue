@@ -1,11 +1,15 @@
 <template>
   <div class="wrapper">
     <input v-model="search" type="text" placeholder="Search" class="search" v-on:input="setQuery()" />
+    <button class="filter-button" @click="openFilters">
+      <i class="fas fa-filter"></i>
+    </button>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { pokemonStore } from "@/store/pokemon.module";
 
 @Component({
   components: {},
@@ -22,6 +26,10 @@ export default class SearchSection extends Vue {
       this.query = this.search;
       this.$emit("search", this.query);
     }, 1000);
+  }
+
+  openFilters() {
+    pokemonStore.openFilters();
   }
 }
 </script>
@@ -43,11 +51,33 @@ export default class SearchSection extends Vue {
   font-family: "Montserrat", sans-serif;
   border-radius: 5px;
   border: solid 1.5px #d3d3d3;
-  transition: 1s;
+  transition: 0.3s ease-in-out;
 
   &:focus {
     box-shadow: 0 0 1px 1px #e63e3e;
     outline-width: 0px;
+  }
+}
+
+.filter-button {
+  height: 35px;
+  width: 35px;
+  margin-left: 5px;
+  font-size: 12.6pt;
+  font-family: "Montserrat", sans-serif;
+  border-radius: 5px;
+  border: solid 1.5px #d3d3d3;
+  background-color: white;
+  transition: 0.3s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #e63e3e;
+    color: white;
+  }
+
+  &:active {
+    transform: scale(0.9);
   }
 }
 </style>

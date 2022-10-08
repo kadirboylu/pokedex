@@ -1,11 +1,14 @@
 <template>
   <div>
     <SearchSection class="search-section" @search="update($event)" />
+    <FiltersSection @filter="filter($event)" />
     <BaseLoader v-if="loading" />
     <div v-if="!error">
-      <TransitionGroup name="list" tag="main">
-        <PokemonCard v-for="pokemon in searchResults" :key="pokemon.name" :pokemon="pokemon" />
-      </TransitionGroup>
+      <div>
+        <TransitionGroup name="list" tag="main">
+          <PokemonCard v-for="pokemon in searchResults" :key="pokemon.name" :pokemon="pokemon" />
+        </TransitionGroup>
+      </div>
     </div>
     <p v-else class="error">{{ error }}</p>
   </div>
@@ -17,26 +20,42 @@ import PokemonCard from "./PokemonCard.vue";
 import SearchSection from "../components/SearchSection.vue";
 import BaseLoader from "./BaseLoader.vue";
 import { getPokemonList, getPokemon, PokemonResponse } from "@/service";
+import FiltersSection from "./FiltersSection.vue";
+import { pokemonStore } from "@/store/pokemon.module";
 
 @Component({
   components: {
     SearchSection,
     BaseLoader,
     PokemonCard,
+    FiltersSection,
   },
 })
 export default class PokemonContainer extends Vue {
   pokemons: PokemonResponse[] = [];
+  filteredPokemons: PokemonResponse[] = [];
   error = "";
   loading = false;
   query = "";
 
-  get searchResults() {
-    return this.query ? this.pokemons.filter((pokemon) => pokemon.name.includes(this.query)) : this.pokemons;
+  get searchResults(): PokemonResponse[] {
+    if (this.query && this.filteredPokemons[0]) {
+      return this.filteredPokemons.filter((pokemon) => pokemon.name.toLowerCase().includes(this.query));
+    } else if (this.query && this.pokemons) {
+      return this.pokemons.filter((pokemon) => pokemon.name.toLowerCase().includes(this.query));
+    } else if (!this.filteredPokemons[0]) {
+      return this.pokemons;
+    } else {
+      return this.filteredPokemons;
+    }
   }
 
   update(value: string): void {
     this.query = value.toLocaleLowerCase();
+  }
+
+  filter(value: PokemonResponse[]): void {
+    this.filteredPokemons = value;
   }
 
   async created() {
@@ -47,6 +66,8 @@ export default class PokemonContainer extends Vue {
       let pokemonList = results;
 
       this.pokemons = await Promise.all(pokemonList.map((pokemon) => getPokemon(pokemon.name)));
+
+      pokemonStore.setPokemonList(this.pokemons);
     } catch (error) {
       this.error = (error as Error).message;
     } finally {

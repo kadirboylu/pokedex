@@ -4,6 +4,7 @@ import { PokemonResponse } from "@/service";
 
 @Module({ name: "modal-module", dynamic: true, store, namespaced: true })
 class PokemonModule extends VuexModule {
+  pokemonList: PokemonResponse[] = [];
   pokemonData: PokemonResponse = {
     name: "",
     id: 0,
@@ -23,6 +24,7 @@ class PokemonModule extends VuexModule {
   };
   showModal = false;
   showDrawer = false;
+  showFilters = false;
 
   @Mutation
   openModal(data: PokemonResponse) {
@@ -44,6 +46,21 @@ class PokemonModule extends VuexModule {
   @Mutation
   closeDrawer() {
     this.showDrawer = false;
+  }
+
+  @Mutation
+  openFilters() {
+    this.showFilters = true;
+  }
+
+  @Mutation
+  closeFilters() {
+    this.showFilters = false;
+  }
+
+  @Mutation
+  setPokemonList(data: PokemonResponse[]) {
+    this.pokemonList = data;
   }
 }
 
