@@ -40,9 +40,19 @@ export default class PokemonContainer extends Vue {
 
   get searchResults(): PokemonResponse[] {
     if (this.query && this.filteredPokemons[0]) {
-      return this.filteredPokemons.filter((pokemon) => pokemon.name.toLowerCase().includes(this.query));
+      const name = this.filteredPokemons.filter((pokemon) => pokemon.name.toLowerCase().includes(this.query));
+      const move = this.filteredPokemons.filter((pokemon) => pokemon.moves.some((item) => item.move.name.toLowerCase().includes(this.query)));
+
+      const result = [...name, ...move];
+
+      return Array.from(new Set(result));
     } else if (this.query && this.pokemons) {
-      return this.pokemons.filter((pokemon) => pokemon.name.toLowerCase().includes(this.query));
+      const name = this.pokemons.filter((pokemon) => pokemon.name.toLowerCase().includes(this.query));
+      const move = this.pokemons.filter((pokemon) => pokemon.moves.some((item) => item.move.name.toLowerCase().includes(this.query)));
+
+      const result = [...name, ...move];
+
+      return Array.from(new Set(result));
     } else if (!this.filteredPokemons[0]) {
       return this.pokemons;
     } else {

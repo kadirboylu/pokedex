@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <input v-model="search" type="text" placeholder="Search" class="search" v-on:input="setQuery()" />
+    <input v-model="search" type="text" placeholder="Type a name or move" class="search" v-on:input="setQuery()" />
     <button class="filter-button" @click="openFilters">
       <i class="fas fa-filter"></i>
     </button>
