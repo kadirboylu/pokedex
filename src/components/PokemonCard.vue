@@ -24,7 +24,7 @@
             </div>
             <h3>{{ $t("height") }}</h3>
             <p>{{ pokemon.height }} {{ $t("decimetres") }}</p>
-            <h3>Weight</h3>
+            <h3>{{ $t("weight") }}</h3>
             <p>{{ pokemon.weight }} {{ $t("hectograms") }}</p>
             <h3>{{ $t("base_experience") }}</h3>
             <p>{{ pokemon.base_experience }} {{ $t("XP") }}</p>
