@@ -1,5 +1,5 @@
 import axios from "axios";
-import { PokemonListResponse, PokemonResponse, AuthResponse, User } from "./types";
+import { PokemonListResponse, PokemonResponse, AuthResponse, User, Favorites } from "./types";
 
 const pokemonURL = "https://pokeapi.co/api/v2/pokemon/";
 
@@ -30,8 +30,8 @@ export const registerUser = async (
   username: string,
   email: string,
   password: string,
-  groups: [],
-  favorites: [],
+  groups: string[],
+  favorites: Favorites[],
   profilePicture: string
 ): Promise<AuthResponse> => {
   const res = await axios.post(`${strapiURL}auth/local/register`, {
@@ -41,16 +41,6 @@ export const registerUser = async (
     groups,
     favorites,
     profilePicture,
-  });
-
-  return res.data;
-};
-
-export const getUser = async (jwt: string): Promise<AuthResponse> => {
-  const res = await axios.get(`${strapiURL}users/me`, {
-    headers: {
-      Authorization: `Bearer ${jwt}`,
-    },
   });
 
   return res.data;
