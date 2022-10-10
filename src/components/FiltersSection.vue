@@ -2,29 +2,33 @@
   <div class="filters" :class="{ show: showFilters }">
     <div class="wrapper">
       <form class="filter-form" @submit.prevent="filter">
+        <div class="form-group">
+          <label>
+            {{ $t("min") }} {{ $t("height") }}
+            <input type="number" v-model.number="minHeight" />
+          </label>
+          <label>
+            {{ $t("max") }} {{ $t("height") }}
+            <input id="max-height" type="number" v-model.number="maxHeight" />
+          </label>
+        </div>
+        <div class="form-group">
+          <label>
+            {{ $t("min") }} {{ $t("weight") }}
+            <input type="number" v-model.number="minWeight" />
+          </label>
+          <label>
+            {{ $t("max") }} {{ $t("weight") }}
+            <input type="number" v-model.number="maxWeight" />
+          </label>
+        </div>
         <label>
-          Min Height
-          <input type="number" v-model.number="minHeight" />
-        </label>
-        <label>
-          Max Height
-          <input id="max-height" type="number" v-model.number="maxHeight" />
-        </label>
-        <label>
-          Min Weight
-          <input type="number" v-model.number="minWeight" />
-        </label>
-        <label>
-          Max Weight
-          <input type="number" v-model.number="maxWeight" />
-        </label>
-        <label>
-          Type
+          {{ $t("type") }}
           <input type="text" v-model="type" />
         </label>
         <div class="buttons">
-          <button type="submit">Filter</button>
-          <button class="clear" @click="clearFilters">Clear</button>
+          <button type="submit">{{ $t("filter") }}</button>
+          <button class="clear" @click="clearFilters" :disabled="!isFiltered">{{ $t("clear") }}</button>
         </div>
         <i class="fas fa-times" @click="filtersClose"></i>
       </form>
@@ -80,15 +84,18 @@ export default class FiltersSection extends Vue {
     this.type = "";
     this.isFiltered = false;
     this.results = [];
+    this.$emit("filter", this.results);
+
+    toastStore.createToast({ message: this.$i18n.t("toast.filters.clear").toString(), type: "error" });
   }
 
   heightFilter() {
     if (this.minHeight > this.maxHeight) {
-      toastStore.createToast({ message: "Min Height cannot be greater than Max Height", type: "error" });
+      toastStore.createToast({ message: this.$i18n.t("toast.filters.min_height").toString(), type: "error" });
       this.isFiltered = false;
       return;
     } else if (this.minHeight < 0 || this.maxHeight < 0) {
-      toastStore.createToast({ message: "Height cannot be less than 0", type: "error" });
+      toastStore.createToast({ message: this.$i18n.t("toast.filters.height_less_than_0").toString(), type: "error" });
       this.isFiltered = false;
       return;
     } else if (this.minHeight === 0 && this.maxHeight === 0) {
@@ -100,11 +107,11 @@ export default class FiltersSection extends Vue {
 
   weightFilter() {
     if (this.minWeight > this.maxWeight) {
-      toastStore.createToast({ message: "Min Weight cannot be greater than Max Weight", type: "error" });
+      toastStore.createToast({ message: this.$i18n.t("toast.filters.min_weight").toString(), type: "error" });
       this.isFiltered = false;
       return;
     } else if (this.minWeight < 0 || this.maxWeight < 0) {
-      toastStore.createToast({ message: "Weight cannot be less than 0", type: "error" });
+      toastStore.createToast({ message: this.$i18n.t("toast.filters.weight_less_than_0").toString(), type: "error" });
       this.isFiltered = false;
       return;
     } else if (this.minWeight === 0 && this.maxWeight === 0) {
@@ -132,8 +139,10 @@ export default class FiltersSection extends Vue {
     this.typeFilter();
 
     if (this.isFiltered) {
-      const resultText = this.results.length === 1 ? "result" : "results";
-      toastStore.createToast({ message: `${this.results.length} ${resultText} found`, type: "info" });
+      toastStore.createToast({
+        message: this.$i18n.t("toast.filters.results", [this.results.length]).toString(),
+        type: "info",
+      });
       this.$emit("filter", this.results);
     } else {
       this.results = [];
@@ -231,6 +240,14 @@ export default class FiltersSection extends Vue {
           &:hover {
             background-color: #e63e3e;
           }
+
+          &:disabled {
+            background-color: #e63e3e;
+            color: white;
+            opacity: 0.5;
+            pointer-events: none;
+            cursor: not-allowed;
+          }
         }
       }
 
@@ -252,6 +269,14 @@ export default class FiltersSection extends Vue {
       }
     }
   }
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .show {

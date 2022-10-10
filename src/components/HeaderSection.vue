@@ -6,10 +6,10 @@
       <h1>POKEDEX!</h1>
     </a>
     <nav :class="{ show: showMenu }">
-      <a href="/">Home</a>
-      <a href="/favorites">Favorites</a>
-      <a v-if="!isLoggedIn" href="/login">Log In</a>
-      <a v-if="!isLoggedIn" href="/signup">Sign Up</a>
+      <a href="/">{{ $t("home") }}</a>
+      <a href="/favorites">{{ $t("favorites") }}</a>
+      <a v-if="!isLoggedIn" href="/login">{{ $t("log_in") }}</a>
+      <a v-if="!isLoggedIn" href="/signup">{{ $t("sign_up") }}</a>
       <div v-if="isLoggedIn" class="user">
         <img :src="profilePicture" alt="profile-picture" />
         <p class="username">{{ username }}</p>
@@ -22,8 +22,9 @@
           closeDropdown();
         "
       >
-        Log Out
+        {{ $t("log_out") }}
       </button>
+      <LanguageSelection />
       <ThemeSwitcher />
     </nav>
   </header>
@@ -33,10 +34,12 @@
 import { Component, Vue } from "vue-property-decorator";
 import ThemeSwitcher from "./ThemeSwitcher.vue";
 import { strapiStore } from "@/store/strapi.module";
+import LanguageSelection from "./LanguageSelection.vue";
 
 @Component({
   components: {
     ThemeSwitcher,
+    LanguageSelection,
   },
 })
 export default class HeaderSection extends Vue {
@@ -125,6 +128,8 @@ nav {
     .username {
       font-weight: 500;
       transition: all 0.3s ease-in-out;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
   .logout {
@@ -134,6 +139,7 @@ nav {
     margin: 0 0.5rem;
     padding: 0.5rem;
     font-size: 1rem;
+    font-family: "montserrat", sans-serif;
     color: white;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
@@ -159,7 +165,7 @@ nav {
   cursor: pointer;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   nav {
     position: absolute;
     top: 66px;

@@ -7,27 +7,27 @@
             <div class="relative">
               <img :src="pokemon.sprites.other.home.front_default" alt="pokemon" class="pokemon-img" />
             </div>
-            <h2 class="name">{{ pokemon.name }}</h2>
+            <h2 class="name" lang="en">{{ pokemon.name }}</h2>
           </div>
           <div class="flip-card-back">
             <div class="head">
-              <h2>{{ pokemon.name }}</h2>
+              <h2 lang="en">{{ pokemon.name }}</h2>
               <GroupSelection :pokemon="pokemon" />
             </div>
             <div @mouseenter="openOptions" @mouseleave="closeOptions" class="options-wrapper">
-              <button class="view-option">Details</button>
+              <button class="view-option">{{ $t("details") }}</button>
               <div v-if="showOptions" class="options">
-                <a class="view-option" :href="`/pokemon/${pokemon.name}`">Page View</a>
-                <button class="view-option" @click="openModal">Modal View</button>
-                <button class="view-option" @click="openDrawer">Drawer View</button>
+                <a class="view-option" :href="`/pokemon/${pokemon.name}`">{{ $t("page_view") }}</a>
+                <button class="view-option" @click="openModal">{{ $t("modal_view") }}</button>
+                <button class="view-option" @click="openDrawer">{{ $t("drawer_view") }}</button>
               </div>
             </div>
-            <h3>Height</h3>
-            <p>{{ pokemon.height }} Decimetres</p>
+            <h3>{{ $t("height") }}</h3>
+            <p>{{ pokemon.height }} {{ $t("decimetres") }}</p>
             <h3>Weight</h3>
-            <p>{{ pokemon.weight }} Hectograms</p>
-            <h3>Base Experience</h3>
-            <p>{{ pokemon.base_experience }} XP</p>
+            <p>{{ pokemon.weight }} {{ $t("hectograms") }}</p>
+            <h3>{{ $t("base_experience") }}</h3>
+            <p>{{ pokemon.base_experience }} {{ $t("XP") }}</p>
           </div>
         </div>
       </div>

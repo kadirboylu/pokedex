@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <input v-model="search" type="text" placeholder="Type a name or move" class="search" v-on:input="setQuery()" />
+    <input v-model="search" type="text" :placeholder="searchPlaceholder" class="search" v-on:input="setQuery()" />
     <button class="filter-button" @click="openFilters">
       <i class="fas fa-filter"></i>
     </button>
@@ -19,6 +19,9 @@ export default class SearchSection extends Vue {
   query = "";
   debounce = 0;
 
+  get searchPlaceholder() {
+    return this.$i18n.t("search_placeholder").toString();
+  }
   setQuery() {
     this.query = "";
     clearTimeout(this.debounce);

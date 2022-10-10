@@ -2,11 +2,11 @@
   <div class="login">
     <form @submit.prevent="login">
       <div class="form-control">
-        <label for="email">Email</label>
+        <label for="email">{{ $t("email") }}</label>
         <input type="email" id="email" v-model="email" />
       </div>
       <div class="form-control">
-        <label for="password">Password</label>
+        <label for="password">{{ $t("password") }}</label>
         <input :type="passwordType" id="password" v-model="password" />
         <i
           class="show-password"
@@ -14,7 +14,7 @@
           @click="showPassword()"
         ></i>
       </div>
-      <button class="btn" type="submit">Log in</button>
+      <button class="btn" type="submit">{{ $t("log_in") }}</button>
     </form>
   </div>
 </template>
@@ -41,13 +41,11 @@ export default class LoginView extends Vue {
     try {
       const response = await loginUser(this.email, this.password);
       strapiStore.login(response);
-      toastStore.createToast({ message: "User successfully logged in", type: "success" });
+      toastStore.createToast({ message: this.$i18n.t("toast.login_view.success").toString(), type: "success" });
 
       this.$router.push({ name: "home" });
     } catch (error) {
-      console.log(error);
-      const err = (error as Error).message;
-      toastStore.createToast({ message: err, type: "error" });
+      toastStore.createToast({ message: this.$i18n.t("toast.login_view.error").toString(), type: "error" });
     }
   }
 }

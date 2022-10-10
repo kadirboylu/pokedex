@@ -5,12 +5,12 @@
       <div class="card" v-for="pokemon in pokemons" :key="pokemon.name">
         <a :href="`/pokemon/${pokemon.name}`" class="pokemon-info">
           <img :src="pokemon.sprites.other.home.front_default" alt="pokemon" />
-          <p>{{ pokemon.name }}</p>
+          <p lang="en">{{ pokemon.name }}</p>
         </a>
         <i class="fas fa-times" @click="remove(pokemon.name)"></i>
       </div>
     </div>
-    <p class="empty" v-if="!pokemons[0]">EMPTY</p>
+    <p class="empty" v-if="!pokemons[0]">{{ $t("empty") }}</p>
     <p class="error" v-if="error">{{ error }}</p>
   </div>
 </template>

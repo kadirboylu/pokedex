@@ -2,6 +2,7 @@ import { store } from "./index";
 import { getModule, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import { AuthResponse, User, updateUserById, Favorites } from "@/service";
 import { toastStore } from "./toast.module";
+import i18n from "../i18n";
 
 @Module({ name: "auth-module", dynamic: true, store, namespaced: true })
 class StrapiModule extends VuexModule {
@@ -28,7 +29,7 @@ class StrapiModule extends VuexModule {
     localStorage.removeItem("jwt");
     localStorage.removeItem("user");
 
-    toastStore.createToast({ message: "You have been logged out", type: "info" });
+    toastStore.createToast({ message: i18n.t("toast.strapi.log_out").toString(), type: "info" });
   }
 
   @Mutation
@@ -38,9 +39,9 @@ class StrapiModule extends VuexModule {
 
       await updateUserById(this.user.id, this.jwt, this.user);
 
-      toastStore.createToast({ message: "Group added", type: "success" });
+      toastStore.createToast({ message: i18n.t("toast.strapi.group_added").toString(), type: "success" });
     } else {
-      toastStore.createToast({ message: "Group already exists", type: "error" });
+      toastStore.createToast({ message: i18n.t("toast.strapi.group_exists").toString(), type: "error" });
     }
   }
 
@@ -51,7 +52,7 @@ class StrapiModule extends VuexModule {
 
       await updateUserById(this.user.id, this.jwt, this.user);
 
-      toastStore.createToast({ message: "Group removed", type: "info" });
+      toastStore.createToast({ message: i18n.t("toast.strapi.group_removed").toString(), type: "info" });
     }
   }
 
@@ -64,7 +65,7 @@ class StrapiModule extends VuexModule {
 
       await updateUserById(this.user.id, this.jwt, this.user);
 
-      toastStore.createToast({ message: "Pokemon added to favorites", type: "success" });
+      toastStore.createToast({ message: i18n.t("toast.strapi.pokemon_added").toString(), type: "success" });
     }
   }
 
@@ -77,7 +78,7 @@ class StrapiModule extends VuexModule {
 
       await updateUserById(this.user.id, this.jwt, this.user);
 
-      toastStore.createToast({ message: "Pokemon removed from favorites", type: "info" });
+      toastStore.createToast({ message: i18n.t("toast.strapi.pokemon_removed").toString(), type: "info" });
     }
   }
 }

@@ -1,13 +1,13 @@
 <template>
   <div @click="toggleDarkMode" class="theme-switcher">
     <i v-if="darkMode" class="fas fa-moon tooltip">
-      <span class="tooltiptext">Dark Mode</span>
+      <span class="tooltiptext">{{ $t("dark_mode") }}</span>
     </i>
     <i v-else-if="lightMode" class="fa-regular fa-sun tooltip">
-      <span class="tooltiptext">Light Mode</span>
+      <span class="tooltiptext">{{ $t("light_mode") }}</span>
     </i>
     <i v-else class="fa-solid fa-computer tooltip">
-      <span class="tooltiptext">System Default</span>
+      <span class="tooltiptext">{{ $t("system_default") }}</span>
     </i>
   </div>
 </template>
@@ -101,7 +101,7 @@ export default class ThemeSwitcher extends Vue {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   .theme-switcher {
     position: absolute;
     right: -5px;

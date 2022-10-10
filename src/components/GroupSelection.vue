@@ -13,7 +13,7 @@
         </div>
       </div>
       <form @submit.prevent="addNewGroup" class="add-new-group">
-        <input type="text" v-model="inputValue" placeholder="Add new group" />
+        <input type="text" v-model="inputValue" :placeholder="placeHolder" />
         <button class="fas fa-plus"></button>
       </form>
       <i class="fa-solid fa-times close" @click="toggleGroups"></i>
@@ -33,6 +33,10 @@ export default class GroupSelection extends Vue {
 
   inputValue = "";
   showGroups = false;
+
+  get placeHolder() {
+    return this.$t("add_new_group").toString();
+  }
 
   get groups(): string[] | undefined {
     return strapiStore.user?.groups;
@@ -67,7 +71,7 @@ export default class GroupSelection extends Vue {
       await strapiStore.addNewGroup(this.inputValue);
       this.inputValue = "";
     } else {
-      toastStore.createToast({ message: "Please enter a group name", type: "error" });
+      toastStore.createToast({ message: this.$i18n.t("toast.group_selection.empty_group").toString(), type: "error" });
     }
   }
 

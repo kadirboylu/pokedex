@@ -1,7 +1,7 @@
 <template>
   <footer>
     <span>
-      See the source code on
+      {{ $t("footer") }}
       <a href="https://github.com/kadirboylu/pokedex" target="_blank">
         <i class="fa-brands fa-github"></i>
       </a>

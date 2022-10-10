@@ -2,17 +2,17 @@
   <div class="signup">
     <form @submit.prevent="signup">
       <div class="form-control">
-        <label for="username">Username</label>
+        <label for="username">{{ $t("username") }}</label>
         <input type="text" id="username" v-model="username" />
         <p v-if="usernameError" class="error">{{ usernameError }}</p>
       </div>
       <div class="form-control">
-        <label for="email">Email</label>
+        <label for="email">{{ $t("email") }}</label>
         <input type="email" id="email" v-model="email" />
         <p v-if="emailError" class="error">{{ emailError }}</p>
       </div>
       <div class="form-control">
-        <label for="password">Password</label>
+        <label for="password">{{ $t("password") }}</label>
         <input :type="passwordType" id="password" v-model="password" />
         <p v-if="passwordError" class="error">{{ passwordError }}</p>
         <i
@@ -22,7 +22,7 @@
         ></i>
       </div>
       <div class="form-control">
-        <label for="password2">Password</label>
+        <label for="password2">{{ $t("password") }}</label>
         <input :type="password2Type" id="password2" v-model="password2" />
         <p v-if="password2Error" class="error">{{ password2Error }}</p>
         <i
@@ -33,16 +33,16 @@
       </div>
       <div class="form-control">
         <label for="profile-picture">
-          Profile Picture
+          {{ $t("sign_up_form.profile_picture") }}
           <div id="display-image">
             <img v-if="image" :src="image" alt="" />
-            <p v-else>Choose image</p>
+            <p v-else>{{ $t("sign_up_form.choose_img") }}</p>
           </div>
         </label>
         <input type="file" id="profile-picture" accept="image/jpeg, image/png, image/jpg" @input="handleImage" />
-        <p v-if="!image" class="error">Image is required</p>
+        <p v-if="!image" class="error">{{ $t("sign_up_form.img_required") }}</p>
       </div>
-      <button class="btn" type="submit" :disabled="!validated">Sign Up</button>
+      <button class="btn" type="submit" :disabled="!validated">{{ $t("sign_up") }}</button>
     </form>
   </div>
 </template>
@@ -87,17 +87,18 @@ export default class SignUpView extends Vue {
   }
 
   get usernameError(): string {
-    const regex = /^[a-zA-Z0-9]{3,}$/;
+    // username min 3 max 10 characters
 
-    if (this.username.length < 3) {
-      return "Username must be at least 3 characters";
-    }
+    const regex = /^[a-zA-Z0-9]{3,10}$/;
+
     if (!this.username) {
-      return "Name is required";
-    } else if (!regex.test(this.username)) {
-      return "Username must be at least 3 characters long and contain only letters and numbers";
+      return this.$i18n.t("sign_up_form.username_required").toString();
     } else if (this.username.length < 3) {
-      return "Username must be at least 3 characters";
+      return this.$i18n.t("sign_up_form.username_min").toString();
+    } else if (this.username.length > 10) {
+      return this.$i18n.t("sign_up_form.username_max").toString();
+    } else if (!regex.test(this.username)) {
+      return this.$i18n.t("sign_up_form.username_alphanumeric").toString();
     } else {
       return "";
     }
@@ -107,9 +108,9 @@ export default class SignUpView extends Vue {
     const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
     if (!this.email) {
-      return "Email is required";
+      return this.$i18n.t("sign_up_form.email_required").toString();
     } else if (!regex.test(this.email)) {
-      return "Email is not valid (johndoe@example.com)";
+      return this.$i18n.t("sign_up_form.email_invalid").toString();
     } else {
       return "";
     }
@@ -119,9 +120,9 @@ export default class SignUpView extends Vue {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*/.?&])[A-Za-z\d@$!./%*?&]{8,}$/;
 
     if (!this.password) {
-      return "Password is required";
+      return this.$i18n.t("sign_up_form.password_required").toString();
     } else if (!regex.test(this.password)) {
-      return "min 8 characters, 1 uppercase, 1 lowercase, 1 number, 1 special character";
+      return this.$i18n.t("sign_up_form.password_invalid").toString();
     } else {
       return "";
     }
@@ -129,7 +130,7 @@ export default class SignUpView extends Vue {
 
   get password2Error(): string {
     if (this.password2 !== this.password) {
-      return "Passwords do not match";
+      return this.$i18n.t("sign_up_form.passwords_not_match").toString();
     } else {
       return "";
     }
@@ -148,7 +149,7 @@ export default class SignUpView extends Vue {
       const response = await registerUser(this.username, this.email, this.password, [], [], this.image);
       strapiStore.login(response);
       toastStore.createToast({
-        message: "You have successfully signed up",
+        message: this.$i18n.t("toast.signup_view.success").toString(),
         type: "success",
       });
       this.$router.push({ name: "home" });

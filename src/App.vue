@@ -24,6 +24,9 @@ import BaseToast from "./components/BaseToast.vue";
 })
 export default class App extends Vue {
   created() {
+    const lang = localStorage.getItem("language") || "en";
+    document.documentElement.setAttribute("lang", lang);
+
     if (localStorage.getItem("theme") === "dark") {
       document.documentElement.classList.add("dark");
     } else if (localStorage.getItem("theme") === "light") {

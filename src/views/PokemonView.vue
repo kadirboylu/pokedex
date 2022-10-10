@@ -6,27 +6,31 @@
     </div>
     <div v-else class="details-wrapper">
       <img :src="pokemon.sprites.other.home.front_default" alt="pokemon-img " class="poke-img animate-bounce" />
-      <h2 class="poke-name">{{ pokemon.name }}</h2>
-      <h2 class="stat-heading">stats</h2>
+      <h2 class="poke-name" lang="en">{{ pokemon.name }}</h2>
+      <h2 class="stat-heading">{{ $t("stats") }}</h2>
       <div class="stats-wrapper">
         <div>
-          <p class="height"><span>Height: </span>{{ pokemon.height }} Decimetres</p>
-          <p class="weight"><span>Weight: </span>{{ pokemon.weight }} Hectograms</p>
+          <p class="height">
+            <span>{{ $t("height") }}: </span>{{ pokemon.height }} {{ $t("decimetres") }}
+          </p>
+          <p class="weight">
+            <span>{{ $t("weight") }}: </span>{{ pokemon.weight }} {{ $t("hectograms") }}
+          </p>
         </div>
       </div>
-      <h2 class="stat-heading">types</h2>
+      <h2 class="stat-heading">{{ $t("types") }}</h2>
       <ul>
         <li v-for="item in pokemon.types" :key="item.slot" class="stat-box">
           {{ item.type.name }}
         </li>
       </ul>
-      <h2 class="stat-heading">abilities</h2>
+      <h2 class="stat-heading">{{ $t("abilities") }}</h2>
       <ul>
         <li v-for="item in pokemon.abilities" :key="item.slot" class="stat-box">
           {{ item.ability.name }}
         </li>
       </ul>
-      <h2 class="stat-heading">moves</h2>
+      <h2 class="stat-heading">{{ $t("moves") }}</h2>
       <ul>
         <li v-for="item in pokemon.moves" :key="item.move.name" class="stat-box">
           {{ item.move.name }}
