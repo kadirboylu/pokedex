@@ -3,32 +3,32 @@
     <div class="wrapper">
       <form class="filter-form" @submit.prevent="filter">
         <div class="form-group">
-          <label>
+          <label for="minHeight">
             {{ $t("min") }} {{ $t("height") }}
-            <input type="number" v-model.number="minHeight" />
+            <input id="minHeight" type="number" v-model.number="minHeight" />
           </label>
-          <label>
+          <label for="maxHeight">
             {{ $t("max") }} {{ $t("height") }}
-            <input id="max-height" type="number" v-model.number="maxHeight" />
+            <input id="maxHeight" type="number" v-model.number="maxHeight" />
           </label>
         </div>
         <div class="form-group">
-          <label>
+          <label for="minWeight">
             {{ $t("min") }} {{ $t("weight") }}
-            <input type="number" v-model.number="minWeight" />
+            <input id="minWeight" type="number" v-model.number="minWeight" />
           </label>
-          <label>
+          <label for="maxWeight">
             {{ $t("max") }} {{ $t("weight") }}
-            <input type="number" v-model.number="maxWeight" />
+            <input id="maxWeight" type="number" v-model.number="maxWeight" />
           </label>
         </div>
-        <label>
+        <label for="filterType">
           {{ $t("type") }}
-          <input type="text" v-model="type" />
+          <input id="filterType" type="text" v-model="type" />
         </label>
         <div class="buttons">
-          <button type="submit">{{ $t("filter") }}</button>
-          <button class="clear" @click="clearFilters" :disabled="!isFiltered">{{ $t("clear") }}</button>
+          <button class="filter-btn" type="submit">{{ $t("filter") }}</button>
+          <button class="clear-btn" @click="clearFilters" :disabled="!isFiltered">{{ $t("clear") }}</button>
         </div>
         <i class="fas fa-times" @click="filtersClose"></i>
       </form>
@@ -77,6 +77,7 @@ export default class FiltersSection extends Vue {
   }
 
   clearFilters() {
+    console.log("clicked");
     this.minHeight = 0;
     this.maxHeight = 0;
     this.minWeight = 0;
@@ -133,7 +134,6 @@ export default class FiltersSection extends Vue {
 
   filter() {
     this.results = pokemonStore.pokemonList;
-
     this.heightFilter();
     this.weightFilter();
     this.typeFilter();
@@ -233,7 +233,7 @@ export default class FiltersSection extends Vue {
           }
         }
 
-        .clear {
+        .clear-btn {
           background-color: red;
           color: white;
 
