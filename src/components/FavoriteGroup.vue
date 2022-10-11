@@ -10,7 +10,7 @@
         <i class="fas fa-times" @click="remove(pokemon.name)"></i>
       </div>
     </div>
-    <p class="empty" v-if="!pokemons[0]">{{ $t("empty") }}</p>
+    <p class="empty" v-if="!pokemons[0] && !error">{{ $t("empty") }}</p>
     <p class="error" v-if="error">{{ error }}</p>
   </div>
 </template>

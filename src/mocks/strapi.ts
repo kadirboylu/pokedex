@@ -9,8 +9,11 @@ export const mockUser: User = {
   provider: "local",
   username: "johndoe",
   email: "johndoe@example.com",
-  groups: ["electric"],
-  favorites: [{ name: "pikachu", group: "electric" }],
+  groups: ["electric", "fire"],
+  favorites: [
+    { name: "pikachu", group: "electric" },
+    { name: "charmander", group: "fire" },
+  ],
   profilePicture: "https://picsum.photos/200/200",
 };
 
