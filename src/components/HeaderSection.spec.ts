@@ -85,7 +85,6 @@ describe("HeaderSection.vue user logged in", () => {
       strapiStore.jwt = "";
       strapiStore.user = null;
       strapiStore.isLogin = false;
-      console.log("logout");
     });
 
     wrapper.find(".logout").trigger("click");
