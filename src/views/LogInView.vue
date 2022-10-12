@@ -33,6 +33,12 @@ export default class LoginView extends Vue {
   password = "";
   passwordType = "password";
 
+  created() {
+    if (strapiStore.user) {
+      this.$router.push({ name: "home" });
+    }
+  }
+
   showPassword() {
     this.passwordType = this.passwordType === "password" ? "text" : "password";
   }

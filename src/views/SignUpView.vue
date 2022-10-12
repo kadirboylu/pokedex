@@ -65,6 +65,12 @@ export default class SignUpView extends Vue {
   password2Type = "password";
   image = "";
 
+  created() {
+    if (strapiStore.user) {
+      this.$router.push({ name: "home" });
+    }
+  }
+
   handleImage(e: Event) {
     const target = e.target as HTMLInputElement;
     const file = target.files?.[0];
@@ -87,8 +93,6 @@ export default class SignUpView extends Vue {
   }
 
   get usernameError(): string {
-    // username min 3 max 10 characters
-
     const regex = /^[a-zA-Z0-9]{3,10}$/;
 
     if (!this.username) {
