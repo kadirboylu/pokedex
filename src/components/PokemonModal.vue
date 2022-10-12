@@ -20,19 +20,19 @@
               </div>
               <h2 class="stat-heading">{{ $t("types") }}</h2>
               <ul>
-                <li v-for="item in pokemon.types" :key="item.slot" class="stat-box">
+                <li v-for="item in pokemon.types" :key="item.slot" class="types stat-box">
                   {{ item.type.name }}
                 </li>
               </ul>
               <h2 class="stat-heading">{{ $t("abilities") }}</h2>
               <ul>
-                <li v-for="item in pokemon.abilities" :key="item.slot" class="stat-box">
+                <li v-for="item in pokemon.abilities" :key="item.slot" class="abilities stat-box">
                   {{ item.ability.name }}
                 </li>
               </ul>
               <h2 class="stat-heading">{{ $t("moves") }}</h2>
               <ul>
-                <li v-for="item in pokemon.moves" :key="item.move.name" class="stat-box">
+                <li v-for="item in pokemon.moves" :key="item.move.name" class="moves stat-box">
                   {{ item.move.name }}
                 </li>
               </ul>
