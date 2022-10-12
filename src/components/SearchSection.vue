@@ -22,6 +22,7 @@ export default class SearchSection extends Vue {
   get searchPlaceholder() {
     return this.$i18n.t("search_placeholder").toString();
   }
+
   setQuery() {
     this.query = "";
     clearTimeout(this.debounce);
