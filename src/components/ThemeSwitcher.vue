@@ -21,13 +21,13 @@ export default class ThemeSwitcher extends Vue {
   darkMode = document.documentElement.classList.contains("dark");
 
   toggleDarkMode(): void {
-    if (document.documentElement.classList.contains("light")) {
+    if (document.documentElement.classList.contains("light") || localStorage.getItem("theme") === "light") {
       document.documentElement.classList.remove("light");
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
       this.lightMode = false;
       this.darkMode = true;
-    } else if (document.documentElement.classList.contains("dark")) {
+    } else if (document.documentElement.classList.contains("dark") || localStorage.getItem("theme") === "dark") {
       document.documentElement.classList.remove("dark");
       document.documentElement.classList.add("light");
       localStorage.setItem("theme", "light");
