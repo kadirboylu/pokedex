@@ -77,7 +77,6 @@ export default class FiltersSection extends Vue {
   }
 
   clearFilters() {
-    console.log("clicked");
     this.minHeight = 0;
     this.maxHeight = 0;
     this.minWeight = 0;

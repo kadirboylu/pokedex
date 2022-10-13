@@ -1,6 +1,6 @@
 <template>
   <div class="favorites">
-    <div v-if="groups[0]" class="groups">
+    <div v-if="groups.length" class="groups">
       <ul class="group" v-for="group in groups" :key="group">
         <li>
           <h2 class="group-name">{{ group }}</h2>

@@ -34,7 +34,7 @@ export default class GroupSelection extends Vue {
   inputValue = "";
   showGroups = false;
 
-  get placeHolder() {
+  get placeHolder(): string {
     return this.$t("add_new_group").toString();
   }
 
@@ -78,7 +78,6 @@ export default class GroupSelection extends Vue {
   async deleteGroup(group: string) {
     const fav = this.filterFavorites(group);
 
-    // Check if group has favorites already and if so, remove them
     if (fav) {
       const promises = fav.map((favorite) => strapiStore.removeFromFavorites(favorite));
       await Promise.all(promises);
@@ -90,7 +89,6 @@ export default class GroupSelection extends Vue {
   }
 
   async addToFavorites(group: string) {
-    // Check if pokemon is already in favorites and if so, remove it from the old group and add it to the new group
     if (this.findPokemonInFavorites) {
       await this.removeFromFavorites();
       strapiStore.addToFavorites({ name: this.pokemon.name, group: group });

@@ -39,7 +39,7 @@ export default class PokemonContainer extends Vue {
   query = "";
 
   get searchResults(): PokemonResponse[] {
-    if (this.query && this.filteredPokemons[0]) {
+    if (this.query && this.filteredPokemons.length) {
       const name = this.filteredPokemons.filter((pokemon) => pokemon.name.toLowerCase().includes(this.query));
       const move = this.filteredPokemons.filter((pokemon) => pokemon.moves.some((item) => item.move.name.toLowerCase().includes(this.query)));
 
@@ -53,18 +53,18 @@ export default class PokemonContainer extends Vue {
       const result = [...name, ...move];
 
       return Array.from(new Set(result));
-    } else if (!this.filteredPokemons[0]) {
+    } else if (!this.filteredPokemons.length) {
       return this.pokemons;
     } else {
       return this.filteredPokemons;
     }
   }
 
-  update(value: string): void {
+  update(value: string) {
     this.query = value.toLocaleLowerCase();
   }
 
-  filter(value: PokemonResponse[]): void {
+  filter(value: PokemonResponse[]) {
     this.filteredPokemons = value;
   }
 
