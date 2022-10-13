@@ -16,7 +16,7 @@ describe("service", () => {
   it("should call the pokemon api url", async () => {
     await getPokemonList();
 
-    expect(mockedAxios.get).toHaveBeenCalledWith(`${pokemonURL}?offset=0&limit=100`);
+    expect(mockedAxios.get).toHaveBeenCalledWith(`${pokemonURL}?offset=0&limit=200`);
   });
 
   it("should call the pokemon api url with the correct name", async () => {
