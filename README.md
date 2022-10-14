@@ -27,6 +27,7 @@ I made this project for fun and to learn more about Vue v2 and TypeScript. I use
 - Search and filter pokemons
 - View pokemon details (drawer, modal or page view)
 - Create groups and add pokemons to them
+- Virtual scroll for the list of pokemons
 - Unit tests
 
 ## Project setup
