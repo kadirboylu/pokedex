@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!user" class="pokemon">
+  <div v-if="user" class="pokemon">
     <BaseLoader v-if="loading" />
     <div v-else-if="error" class="error">
       <p>{{ error }}</p>
