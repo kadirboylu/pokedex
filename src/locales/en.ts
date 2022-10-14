@@ -44,9 +44,9 @@ export const en = {
     password_invalid: "Min 8 characters, 1 uppercase, 1 lowercase, 1 number, 1 special character is required",
     passwords_not_match: "Passwords do not match",
     username_required: "Username is required",
-    username_must_be_at_least_3_characters: "Username must be at least 3 characters",
-    username_must_be_less_than_10_characters: "Username must be less than 10 characters",
-    username_must_be_alphanumeric: "Username must be alphanumeric",
+    username_min: "Username must be at least 3 characters",
+    username_max: "Username must be less than 10 characters",
+    username_alphanumeric: "Username must be alphanumeric",
   },
   footer: "See the source code on",
   toast: {
