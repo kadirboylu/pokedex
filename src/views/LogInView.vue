@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div v-if="!user" class="login">
     <form @submit.prevent="login">
       <div class="form-control">
         <label for="email">{{ $t("email") }}</label>
@@ -24,6 +24,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { toastStore } from "@/store/toast.module";
 import { loginUser } from "@/service";
 import { strapiStore } from "@/store/strapi.module";
+import { User } from "@/service";
 
 @Component({
   components: {},
@@ -53,6 +54,10 @@ export default class LoginView extends Vue {
     } catch (error) {
       toastStore.createToast({ message: this.$i18n.t("toast.login_view.error").toString(), type: "error" });
     }
+  }
+
+  get user(): User | null {
+    return strapiStore.user;
   }
 }
 </script>

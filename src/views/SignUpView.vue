@@ -1,5 +1,5 @@
 <template>
-  <div class="signup">
+  <div v-if="!user" class="signup">
     <form @submit.prevent="signup">
       <div class="form-control">
         <label for="username">{{ $t("username") }}</label>
@@ -52,6 +52,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { toastStore } from "@/store/toast.module";
 import { registerUser } from "@/service";
 import { strapiStore } from "@/store/strapi.module";
+import { User } from "@/service";
 
 @Component({
   components: {},
@@ -69,6 +70,10 @@ export default class SignUpView extends Vue {
     if (strapiStore.user) {
       this.$router.push({ name: "home" });
     }
+  }
+
+  get user(): User | null {
+    return strapiStore.user;
   }
 
   handleImage(e: Event) {

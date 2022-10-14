@@ -1,5 +1,5 @@
 <template>
-  <div class="base">
+  <div v-if="user" class="base">
     <h2>{{ $t("page_not_found") }}</h2>
     <p>{{ $t("page_not_found_message") }}</p>
     <a href="/">{{ $t("home") }}</a>
@@ -9,6 +9,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { strapiStore } from "@/store/strapi.module";
+import { User } from "@/service";
 
 @Component({
   components: {},
@@ -18,6 +19,10 @@ export default class PageNotFoundView extends Vue {
     if (!strapiStore.isLogin) {
       this.$router.push("/login");
     }
+  }
+
+  get user(): User | null {
+    return strapiStore.user;
   }
 }
 </script>

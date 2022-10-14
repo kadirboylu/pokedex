@@ -1,5 +1,5 @@
 <template>
-  <div class="home-view">
+  <div v-if="user" class="home-view">
     <div class="home-logo">
       <img src="@/assets/image/pokedex.webp" alt="logo" class="img-pokedex" />
       <img src="@/assets/image/pokeball.webp" alt="logo" class="img-pokeball animate-spin" />
@@ -19,6 +19,7 @@ import PokemonModal from "../components/PokemonModal.vue";
 import { pokemonStore } from "../store/pokemon.module";
 import { strapiStore } from "@/store/strapi.module";
 import PokemonDrawer from "@/components/PokemonDrawer.vue";
+import { User } from "@/service";
 
 @Component({
   components: {
@@ -30,6 +31,10 @@ import PokemonDrawer from "@/components/PokemonDrawer.vue";
 export default class HomeView extends Vue {
   get showModal(): boolean {
     return pokemonStore.showModal;
+  }
+
+  get user(): User | null {
+    return strapiStore.user;
   }
 
   created() {

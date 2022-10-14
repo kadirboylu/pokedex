@@ -1,5 +1,5 @@
 <template>
-  <div class="pokemon">
+  <div v-if="!user" class="pokemon">
     <BaseLoader v-if="loading" />
     <div v-else-if="error" class="error">
       <p>{{ error }}</p>
@@ -45,6 +45,7 @@ import { Component, Vue } from "vue-property-decorator";
 import BaseLoader from "@/components/BaseLoader.vue";
 import { getPokemon, PokemonResponse } from "@/service";
 import { strapiStore } from "@/store/strapi.module";
+import { User } from "@/service";
 
 @Component({
   components: {
@@ -91,6 +92,10 @@ export default class PokemonView extends Vue {
     } finally {
       this.loading = false;
     }
+  }
+
+  get user(): User | null {
+    return strapiStore.user;
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="favorites">
+  <div v-if="user" class="favorites">
     <div v-if="groups.length" class="groups">
       <ul class="group" v-for="group in groups" :key="group">
         <li>
@@ -15,6 +15,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { strapiStore } from "@/store/strapi.module";
+import { User } from "@/service";
 import FavoriteGroup from "../components/FavoriteGroup.vue";
 
 @Component({
@@ -27,6 +28,10 @@ export default class FavoritesView extends Vue {
     if (!strapiStore.isLogin) {
       this.$router.push("/login");
     }
+  }
+
+  get user(): User | null {
+    return strapiStore.user;
   }
 
   get groups(): string[] {
