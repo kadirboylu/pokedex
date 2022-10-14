@@ -40,7 +40,7 @@
           </div>
         </label>
         <input type="file" id="profile-picture" accept="image/jpeg, image/png, image/jpg" @input="handleImage" />
-        <p v-if="!image" class="error">{{ $t("sign_up_form.img_required") }}</p>
+        <p v-if="!image" class="error">{{ profilePictureError }}</p>
       </div>
       <button class="btn" type="submit" :disabled="!validated">{{ $t("sign_up") }}</button>
     </form>
@@ -145,8 +145,16 @@ export default class SignUpView extends Vue {
     }
   }
 
+  get profilePictureError(): string {
+    if (!this.image) {
+      return this.$i18n.t("sign_up_form.img_required").toString();
+    } else {
+      return "";
+    }
+  }
+
   get validated(): boolean {
-    if (this.usernameError || this.emailError || this.passwordError || this.password2Error) {
+    if (this.usernameError || this.emailError || this.passwordError || this.password2Error || this.profilePictureError) {
       return false;
     } else {
       return true;
