@@ -1,13 +1,13 @@
 <template>
-  <div>
+  <div id="pokemon-container">
     <SearchSection class="search-section" @search="update($event)" />
     <FiltersSection @filter="filter($event)" />
-    <BaseLoader v-if="loading" />
+    <div v-if="loading" class="loader">
+      <BaseLoader />
+    </div>
     <div v-if="!error">
       <div>
-        <TransitionGroup name="list" tag="main">
-          <PokemonCard v-for="pokemon in searchResults" :key="pokemon.name" :pokemon="pokemon" />
-        </TransitionGroup>
+        <VirtualScroll :pokemons="searchResults" />
       </div>
     </div>
     <p v-else class="error">{{ error }}</p>
@@ -22,6 +22,7 @@ import BaseLoader from "./BaseLoader.vue";
 import { getPokemonList, getPokemon, PokemonResponse } from "@/service";
 import FiltersSection from "./FiltersSection.vue";
 import { pokemonStore } from "@/store/pokemon.module";
+import VirtualScroll from "./VirtualScroll.vue";
 
 @Component({
   components: {
@@ -29,6 +30,7 @@ import { pokemonStore } from "@/store/pokemon.module";
     BaseLoader,
     PokemonCard,
     FiltersSection,
+    VirtualScroll,
   },
 })
 export default class PokemonContainer extends Vue {
@@ -88,31 +90,19 @@ export default class PokemonContainer extends Vue {
 </script>
 
 <style lang="scss" scoped>
+#pokemon-container {
+  position: relative;
+}
 .search-section {
   margin: 5rem 0;
 }
 
-main {
+.spacer {
   width: 100%;
-  padding: 1rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-}
-
-.list-enter-active,
-.list-leave-active {
-  transition: all 0.5s ease;
-}
-.list-enter-from,
-.list-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
-}
-
-.list-leave-active {
-  position: absolute;
 }
 
 .error {
@@ -121,5 +111,11 @@ main {
   text-align: center;
   font-size: 1.5rem;
   font-weight: 500;
+}
+
+.loader {
+  width: 100%;
+  position: absolute;
+  z-index: 10;
 }
 </style>
