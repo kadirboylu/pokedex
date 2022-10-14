@@ -48,7 +48,7 @@ export const tr = {
     username_max: "Kullanıcı adı 10 karakterden az olmalıdır",
     username_alphanumeric: "Kullanıcı adı sayı ve harflerden oluşmalıdır",
   },
-  footer: "Kaynak kodlara ulaşmak için tıklayın",
+  footer: "Kaynak kodlar",
   toast: {
     filters: {
       min_height: "Minimum boy maksimum boydan büyük olamaz",
