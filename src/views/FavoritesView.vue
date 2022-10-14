@@ -8,7 +8,7 @@
         </li>
       </ul>
     </div>
-    <p v-else class="empty">EMPTY</p>
+    <p v-else class="empty">{{ $t("empty") }}</p>
   </div>
 </template>
 
