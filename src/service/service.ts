@@ -3,7 +3,7 @@ import { PokemonListResponse, PokemonResponse, AuthResponse, User, Favorites } f
 
 const pokemonURL = "https://pokeapi.co/api/v2/pokemon/";
 
-const strapiURL = "https://pokedex-backend-zjs6b.ondigitalocean.app/api/";
+const strapiURL = "http://localhost:1337/api/";
 
 export const getPokemonList = async (): Promise<PokemonListResponse> => {
   const res = await axios.get<PokemonListResponse>(`${pokemonURL}?offset=0&limit=500`);
