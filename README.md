@@ -2,7 +2,7 @@
 
 I made this project for fun and to learn more about Vue v2 and TypeScript. I used the [PokeAPI](https://pokeapi.co/) to get the data for the pokemon.
 
-[Live App](https://pokedex-vue-v2.vercel.app/)
+Before you start, make sure you have Pokedex Backend running. You can find it [here](https://github.com/kadirboylu/pokedex-backend).
 
 ## Tech Stack
 
